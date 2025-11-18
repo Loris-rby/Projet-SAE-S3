@@ -131,6 +131,7 @@
                 <?php
                 // Conserver les tentatives pour les POST suivants
                 foreach ($tentatives as $tent) {
+
                     echo '<input type="hidden" name="tentatives[]" value="' . htmlspecialchars($tent, ENT_QUOTES, 'UTF-8') . '">';
                 }
                 ?>
@@ -139,31 +140,25 @@
         </form>
 
             <?php
-//  Vérif victory
+            //  Vérif victory
             if (!empty($tentatives)) {
                 $derniereTentative = end($tentatives);
 
                 if ($derniereTentative === $motSecret) {
                     echo "<h2>Bravo ! Vous avez trouvé le mot <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b> !</h2>";
-                    ?><form method="POST"><button type="submit">Rejouer</button></form><?php
+                    ?><?php
             } elseif (count($tentatives) >= $nombreEssais) {
                 echo "<h2>Perdu ! Le mot était <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b>.</h2>";
-                ?><form method="POST"><button type="submit">Rejouer</button></form><?php
-            }
+                ?><?php
+            } ?>
+            <p></p>
+            <form method="POST"><button type="submit">Rejouer</button></form>
+        <?php
         }
         ?>
 
                 <p> Pour les accents copier-coller ici : </p>
-        <p> â - 
-         é -
-         è -
-         ê -
-         î -
-         ñ -
-         ó -
-         í -
-         ñ -
-         ô </p>
+        <p> â - é - è - ê - ñ - ó - í - ñ - ô </p>
         <!-- Pour les accents mettre le code  -->
                 
     <script src="Motus.js"></script> 
