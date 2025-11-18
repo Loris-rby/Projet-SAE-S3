@@ -3,14 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>Motus PHP</title>
-        <link rel="stylesheet" href="style.css"> 
+        <link rel="stylesheet" href="./style.css"> 
 
     </head>
     <body>
         <h1>Jeu du Motus (PHP)</h1>
 
         <?php
-        include './fonctions.php';
+        include './../fonctions.php';
         mb_internal_encoding("UTF-8"); //On indique que toutes les fonctions utilisent UTF-8
 
 
