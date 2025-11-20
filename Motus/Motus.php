@@ -2,12 +2,13 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>Motus PHP</title>
+        <title>Motus </title>
         <link rel="stylesheet" href="./style.css"> 
 
     </head>
     <body>
-        <h1>Jeu du Motus (PHP)</h1>
+        <h1>Jeu du Motus </h1>
+        <h1>Veuillez saisir un mot </h1>
 
         <?php
         include './../fonctions.php';
@@ -157,7 +158,7 @@
         }
         ?>
 
-                <p> Pour les accents copier-coller ici : </p>
+                <p> Pour les accents copier ici : </p>
         <p> â - é - è - ê - ñ - ó - í - ñ - ô </p>
         <!-- Pour les accents mettre le code  -->
                 
