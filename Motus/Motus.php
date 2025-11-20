@@ -8,23 +8,28 @@
     </head>
     <body>
         <h1>Jeu du Motus </h1>
-        <h1>Veuillez saisir un mot </h1>
-        <select> 
-            <options value="french">français</options>
-            <options value="english">anglais</options>
-            <options value="spanish">espagnol</options>
+        <h1>Veuillez saisir un mot :</h1>
+        
+        <form method="POST">
+        <select name="langues"> 
+            <option value="fr">français</option>
+            <option value="en">anglais</option>
+            <option value="sp">espagnol</option>
         </select>
+        <button type="submit">Valider la langue choisie</button>
+
+        </form>
+        
         <?php
         include './../fonctions.php';
         mb_internal_encoding("UTF-8"); //On indique que toutes les fonctions utilisent UTF-8
-    
 
-        function defMotSecret ($langueVoulue){
+        $langueVoulue = $_POST['langues'] ?? "fr"; // 
 
-        }
+        echo $langueVoulue;
+        echo get_random_word()[$langueVoulue];
 
-
-        $motSecret = "apprendre"; // mot à deviner (garde les accents pour l'affichage)
+        $motSecret = get_random_word()[$langueVoulue]; // mot à deviner (garde les accents pour l'affichage)
         $tailleMot = mb_strlen($motSecret, "UTF-8");
         $nombreEssais = 5; // nombre de tentatives max
         //recup data post par le tableau
