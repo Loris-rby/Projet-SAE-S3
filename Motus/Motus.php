@@ -9,11 +9,19 @@
     <body>
         <h1>Jeu du Motus </h1>
         <h1>Veuillez saisir un mot </h1>
-
+        <select> 
+            <options value="french">français</options>
+            <options value="english">anglais</options>
+            <options value="spanish">espagnol</options>
+        </select>
         <?php
         include './../fonctions.php';
         mb_internal_encoding("UTF-8"); //On indique que toutes les fonctions utilisent UTF-8
+    
 
+        function defMotSecret ($langueVoulue){
+
+        }
 
 
         $motSecret = "apprendre"; // mot à deviner (garde les accents pour l'affichage)
@@ -153,14 +161,14 @@
                 ?><?php
             } ?>
             <p></p>
-            <form method="POST"><button type="submit">Rejouer</button></form>
+            <form method="POST"><button type="submit">Rejouer</button></form>  <!-- refresh la page avec un nouveau mot  -->
+
         <?php
         }
         ?>
 
                 <p> Pour les accents copier ici : </p>
         <p> â - é - è - ê - ñ - ó - í - ñ - ô </p>
-        <!-- Pour les accents mettre le code  -->
                 
     <script src="Motus.js"></script> 
 
