@@ -1,16 +1,11 @@
 <?php
 
 // ====================================================================
-// --- Configuration API (À personnaliser) ---
+// --- Configuration API ---
 // ====================================================================
 
 $apiKey = 'API KEY'; 
 $baseUrl = "https://firestore.googleapis.com/v1/projects/sae-3-3fd79/databases/(default)/documents/dictionnaire";
-
-
-// ====================================================================
-// --- Fonctions Utilitaires ---
-// ====================================================================
 
 /**
  * @brief Fonction d'appel générique à l'API Firestore.
@@ -171,4 +166,50 @@ function get_dictionary_words(?string $filter_word_like = null, string $filter_l
     }
     
     return $results;
+}
+
+   
+/**
+ * @brief Récupère un mot aléatoire du dictionnaire.
+ */
+function get_random_word(): array {
+    global $baseUrl, $apiKey;
+    $url = $baseUrl . "?key=$apiKey";
+    $data = api($url, 'GET');
+    $documents = $data['documents'] ?? [];
+    if (empty($documents)) {
+        return [];
+    }
+    $random_doc = $documents[array_rand($documents)];
+    $fields = $random_doc['fields'];
+    return [
+        'fr' => $fields['fr']['stringValue'] ?? '',
+        'en' => $fields['en']['stringValue'] ?? '',
+        'categories' => array_map(fn($cat) => $cat['stringValue'], $
+    $fields['categories']['arrayValue']['values'] ?? [])];
+}
+
+/**
+ * @brief Récupère l'ensembles des catégories existantes dans le dictionnaire.
+ */
+
+function get_all_categories(): array {
+    global $baseUrl, $apiKey;
+    $url = $baseUrl . "?key=$apiKey";
+    $data = api($url, 'GET');
+    $all_categories = [];
+
+    foreach ($data['documents'] ?? [] as $d) {
+        $f = $d['fields'];
+        $firestore_categories = $f['categories']['arrayValue']['values'] ?? [];
+
+        foreach ($firestore_categories as $cat_value) {
+            $cat = $cat_value['stringValue'] ?? '';
+            if ($cat && !in_array($cat, $all_categories)) {
+                $all_categories[] = $cat;
+            }
+        }
+    }
+
+    return $all_categories;
 }
