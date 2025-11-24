@@ -71,12 +71,15 @@
             $secretChars = mb_str_split_chars($motSecret); // mot secret = mot a trouver
             $saisiChars = mb_str_split_chars($motSaisi);
 
-            $len = count($secretChars);
-            $result = array_fill(0, $len, 'absent');
+            $len = count($secretChars); 
+            $result = array_fill(0, $len, 'absent'); // par défaut tout est en absent 
+            
+            
+            // et ensuite on vérifie si ils sont 'bien-place' ou 'mal-place'
 
-            // Marquer les bien-place 
+            // Marquer les 'bien-place'
             for ($i = 0; $i < $len; $i++) {
-                if (isset($saisiChars[$i]) && $saisiChars[$i] === $secretChars[$i]) {
+                if (isset($saisiChars[$i]) && $saisiChars[$i] === $secretChars[$i]) { // 1.	la lettre saisie existe à l’index $i   2.la lettre saisie est la même que la lettre du mot secret au même endroit
                     $result[$i] = 'bien-place';
                     $secretChars[$i] = null;
                 }
@@ -93,14 +96,13 @@
                 // cherche un index k où secretChars[k] === lettre et non consommée (not null)
                 $foundIndex = null;
                 for ($k = 0; $k < $len; $k++) {
-                    if ($secretChars[$k] !== null && $secretChars[$k] === $lettre) {
+                    if ($secretChars[$k] !== null && $secretChars[$k] === $lettre) { // La lettre du mot secret à l’index 'k' est égale à la lettre qu’on cherche dans le mot saisi du joueur
                         $foundIndex = $k;
                         break;
                     }
                 }
-                if ($foundIndex !== null) {
+                if ($foundIndex !== null) { // Ce code s’exécute quand la lettre n’est PAS bien placée, mais on vérifie si elle existe ailleurs dans le mot secret.
                     $result[$i] = 'mal-place';
-                    // consommer cette occurrence pour éviter double comptage
                     $secretChars[$foundIndex] = null;
                 } else {
                     $result[$i] = 'absent';

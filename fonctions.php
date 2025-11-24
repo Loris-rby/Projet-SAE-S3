@@ -4,7 +4,7 @@
 // --- Configuration API ---
 // ====================================================================
 
-$apiKey = 'AIzaSyD_RYUfY8H9clTW6Dxg2SznBiM_cuH46Jg'; 
+$apiKey = 'API_KEY'; 
 $baseUrl = "https://firestore.googleapis.com/v1/projects/sae-3-3fd79/databases/(default)/documents/dictionnaire";
 
 /**
