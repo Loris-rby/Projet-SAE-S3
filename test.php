@@ -6,18 +6,17 @@ require_once 'fonctions.php';
 // --- DÉMONSTRATION D'UTILISATION (1 LIGNE) ---
 // ====================================================================
 
-
-/* --- Données de démonstration ---
 $mot_a_fr = 'la plume';
 $mot_a_en = 'the feather';
 $mot_b_fr = 'le bateau';
 $mot_b_en = 'the boat';
 
+/*
 
 
-Utilisation 1 ligne : Ajout du mot A 
 $result_a = add_word($mot_a_fr, $mot_a_en, ['écriture', 'oiseau']);
 echo "Ajout de '$mot_a_fr' : " . ($result_a['name'] ?? 'Échec') . "\n";
+
 
 // Utilisation 1 ligne : Ajout du mot B
 $result_b = add_word($mot_b_fr, $mot_b_en, ['mer', 'transport', 'navigation']);
@@ -63,23 +62,24 @@ echo "Suppression de '$mot_b_en' : " . ($result_delete_en === [] ? 'Succès' : '
 $verif_delete = get_dictionary_words('le bateau');
 echo "Vérification (doit être vide) : " . (empty($verif_delete) ? 'OK, supprimé.' : 'Erreur.') . "\n";
 
+
 */
 
 // Test nouvelle function --> get_random_word
 $random_word = get_random_word();
-if ($random_word !== null) {
+if (!empty($random_word)) {
     echo "Mot aléatoire : FR: {$random_word['fr']}, EN: {$random_word['en']}\n";
 } 
 else {
     echo "Aucun mot trouvé dans le dictionnaire.\n";
 }
 
+
+
 // Test nouvelle function --> get_all_categories
 $all_categories = get_all_categories();
-if (!empty($all_categories)) {
-    echo "Catégories dans le dictionnaire : " . implode(', ', $all_categories) . "\n";
-}
-else {
-    echo "Aucun mot trouvé dans le dictionnaire.\n";
-}
+
+echo "Catégories dans le dictionnaire : " . implode($all_categories);
+
+
 

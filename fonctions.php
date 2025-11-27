@@ -4,7 +4,8 @@
 // --- Configuration API ---
 // ====================================================================
 
-$apiKey = 'API_KEY'; 
+
+$apiKey = 'AIzaSyD_RYUfY8H9clTW6Dxg2SznBiM_cuH46Jg'; 
 $baseUrl = "https://firestore.googleapis.com/v1/projects/sae-3-3fd79/databases/(default)/documents/dictionnaire";
 
 /**
@@ -172,21 +173,29 @@ function get_dictionary_words(?string $filter_word_like = null, string $filter_l
 /**
  * @brief Récupère un mot aléatoire du dictionnaire.
  */
+
 function get_random_word(): array {
     global $baseUrl, $apiKey;
     $url = $baseUrl . "?key=$apiKey";
+
     $data = api($url, 'GET');
     $documents = $data['documents'] ?? [];
+
     if (empty($documents)) {
         return [];
     }
     $random_doc = $documents[array_rand($documents)];
-    $fields = $random_doc['fields'];
+    $fields = $random_doc['fields'] ?? [];
+    $categories_firestore = $fields['categories']['arrayValue']['values'] ?? [];
+    $categories = array_map(function($cat) {
+        return $cat['stringValue'] ?? '';
+    }, $categories_firestore);
+
     return [
         'fr' => $fields['fr']['stringValue'] ?? '',
         'en' => $fields['en']['stringValue'] ?? '',
-        'categories' => array_map(fn($cat) => $cat['stringValue'], $
-    $fields['categories']['arrayValue']['values'] ?? [])];
+        'categories' => $categories
+    ];
 }
 
 /**
