@@ -37,9 +37,8 @@
         
 
         // ----------- Gestion du score ----------------------------------------------------------------------
-        if (!isset($_SESSION['score'])) {
-            $_SESSION['score'] = $_SESSION['score'] ?? 0; // Pour creer un score globale on le renvoie a chaque Post
-        }
+        $_SESSION['score'] = $_SESSION['score'] ?? 0; // Pour creer un score global on le renvoie a chaque Post
+        
         ?> <p> <?php
         echo " Score :".$_SESSION['score'];  // On affiche le score 
         ?> </p> 
