@@ -33,7 +33,18 @@
         }
         $langueVoulue = $_SESSION['langue'] ?? "fr"; // on affiche en quel langues est le mot a trouvée
 
-        echo "word in ".$langueVoulue;
+        if ($langueVoulue=="fr"){
+            echo "Le mot que tu dois trouver est en français";
+        }
+        else{
+            if ($langueVoulue=="en"){
+                echo "the word that you will guess is in english";
+            }
+            else{
+                echo "La palabra que debes encontrar está en español";
+
+            }
+        }
         
 
         // ----------- Gestion du score ----------------------------------------------------------------------
