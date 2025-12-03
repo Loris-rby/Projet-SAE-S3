@@ -24,21 +24,37 @@
         <?php
 
         session_start();
-        mb_internal_encoding("UTF-8");         //On indique que toutes les fonctions utilisent UTF-8
+        mb_internal_encoding("UTF-8"); //On indique que toutes les fonctions utilisent UTF-8
         include './../fonctions.php';
 
+        // ----------- Gestion de la langue voulue  ----------------------------------------------------------------------
         if (isset($_POST['langues'])) { // Pour que la langue ne change pas a chaque Post (validation d'une ligne)
             $_SESSION['langue'] = $_POST['langues'];
         }
-        $langueVoulue = $_SESSION['langue'] ?? "fr";
+        $langueVoulue = $_SESSION['langue'] ?? "fr"; // on affiche en quel langues est le mot a trouvée
 
         echo "word in ".$langueVoulue;
+        
+
+        // ----------- Gestion du score ----------------------------------------------------------------------
+        if (!isset($_SESSION['score'])) {
+            $_SESSION['score'] = $_SESSION['score'] ?? 0; // Pour creer un score globale on le renvoie a chaque Post
+        }
+        ?> <p> <?php
+        echo " Score :".$_SESSION['score'];  // On affiche le score 
+        ?> </p> 
+        
+        <?php
+        // ----------- Gestion du mot a trouver  ----------------------------------------------------------------------
+
         if (!isset($_SESSION['motSecret'])) {  // Pour que le mot a trouvée ne change pas a chaque validation d'une ligne
+            
             $random_word = get_random_word();
             $_SESSION['motSecret'] = $random_word;
         }
         $motSecret = $_SESSION['motSecret'][$langueVoulue];        // mot à deviner (garde les accents pour l'affichage)
 
+        // ----------- Gestion des autres parametres du jeu ----------------------------------------------------------------------
 
         $tailleMot = mb_strlen($motSecret, "UTF-8");
         $nombreEssais = 5; // nombre de tentatives max
@@ -46,6 +62,8 @@
         $tentatives = $_POST['tentatives'] ?? [];  //$tentatives contient tous les mots déjà saisis par le joueur
 
         $motActuel = $_POST['motActuel'] ?? []; //$motActuel est le mot en cours de saisie (lettre par lettre)
+
+        // ----------- Vérification de saisie  ----------------------------------------------------------------------
         // Si le joueur a soumis un mot 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($motActuel)) { //Vérifie si le joueur a soumis quelque chose
             //reconstruire le mot avec les input 1 par 1
@@ -57,10 +75,10 @@
         }
 
         function mb_str_split_chars($str) {
-            //Transforme une chaîne en tableau de lettres, y compris les lettres accentuées (de la meme manière qu'implode au dessus
+            //Transforme une chaîne en tableau de lettres, y compris les lettres accentuées (de la meme manière qu'implode au dessus)
             return preg_split('//u', $str, -1, PREG_SPLIT_NO_EMPTY);
         }
-
+        // ----------- Gestion des réponses par lettres ----------------------------------------------------------------------
         function evaluerTentative($motSecret, $motSaisi) {
             /* Compare le mot saisi avec le mot a trouver et 
               Retourne un tableau indiquant pour chaque lettre :
@@ -111,11 +129,14 @@
 
             return $result; // ex: ['bien-place','absent','mal-place']
         }
+
         ?>
 
         <form method="POST">
             <table>
         <?php
+        // ----------- Gestion de la grille ----------------------------------------------------------------------
+
         for ($i = 0; $i < $nombreEssais; $i++) {
             echo "<tr>";
 
@@ -156,7 +177,6 @@
                 <?php
                 // Conserver les tentatives pour les POST suivants
                 foreach ($tentatives as $tent) {
-
                     echo '<input type="hidden" name="tentatives[]" value="' . htmlspecialchars($tent, ENT_QUOTES, 'UTF-8') . '">';
                 }
                 ?>
@@ -165,14 +185,18 @@
         </form>
 
             <?php
+            // ----------- Gestion de la victoire / défaite  ----------------------------------------------------------------------
+
             //  Vérif victory
             if (!empty($tentatives)) {
                 $derniereTentative = end($tentatives);
 
                 if ($derniereTentative === $motSecret) {
+                    $_SESSION['score'] += 1; // Ajouter 1 au score 
                     echo "<h2>Bravo ! Vous avez trouvé le mot <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b> !</h2>";
                     ?><?php
             } elseif (count($tentatives) >= $nombreEssais) {
+                $_SESSION['score'] = 0; // remettre le score a 0
                 echo "<h2>Perdu ! Le mot était <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b>.</h2>";
                 ?><?php
             } ?>
