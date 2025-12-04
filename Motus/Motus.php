@@ -63,10 +63,9 @@
         <?php
         // ----------- Gestion du mot a trouver  ----------------------------------------------------------------------
 
-        if (!isset($_SESSION['motSecret'])) {  // Pour que le mot a trouvée ne change pas a chaque validation d'une ligne
+        if ($_SESSION['motSecret']== NULL) {  // Pour que le mot a trouvée ne change pas a chaque validation d'une ligne
             
-            $random_word = get_random_word();
-            $_SESSION['motSecret'] = $random_word;
+            $_SESSION['motSecret'] = get_random_word();
         }
         $motSecret = $_SESSION['motSecret'][$langueVoulue];        // mot à deviner (garde les accents pour l'affichage)
 
@@ -216,14 +215,26 @@
                 if ($derniereTentative === $motSecret) {
                     $_SESSION['score'] += 1; // Ajouter 1 au score 
                     echo "<h2>Bravo ! Vous avez trouvé le mot <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b> !</h2>";
-                    ?><?php
+                    ?>
+                    <form method="POST">
+            <button type="submit">Rejouer</button>
+                <?php
+                $_SESSION['motSecret']=get_random_word();
+                ?>
+            </form> <?php
             } elseif (count($tentatives) >= $nombreEssais) {
                 $_SESSION['score'] = 0; // remettre le score a 0
                 echo "<h2>Perdu ! Le mot était <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b>.</h2>";
-                ?><?php
+                ?>
+                <form method="POST">
+            <button type="submit">Rejouer</button>
+                <?php
+                $_SESSION['motSecret'] = get_random_word();
+                ?>
+            </form> 
+            <?php
             } ?>
             <p></p>
-            <form method="POST"><button type="submit">Rejouer</button></form>  <!-- refresh la page avec un nouveau mot  -->
 
         <?php
         }
