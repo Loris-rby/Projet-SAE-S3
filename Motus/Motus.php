@@ -10,41 +10,47 @@
         <h1>Jeu du Motus </h1>
         <h1>Veuillez saisir un mot :</h1>
         
-        <form method="POST"> 
-        <select name="langues"> 
-            <option value="fr">français</option>
-            <option value="en">anglais</option>
-        <?php   //echo "<option value='sp'>espagnol</option>" ;  // pour l'espagnol dans la BD 
-        // Formulaire des différentes langues ?>
-        </select>
+        
+        <form method="POST" > 
+        <select name="langues"  > 
+            <?php 
+        session_start();
+        mb_internal_encoding("UTF-8"); //On indique que toutes les fonctions utilisent UTF-8
+        include './../fonctions.php';
+
+        // ----------- Gestion de la langue voulue  ----------------------------------------------------------------------
+        if (isset($_POST['langues'])) { // Pour que la langue ne change pas a chaque Post (pour la validation d'une ligne par exempleh)
+            $_SESSION['langue'] = $_POST['langues'];
+        }
+        $langueVoulue = $_SESSION['langue'] ?? "fr"; // on enregistre en quel langue est le mot a trouvée par defaut en français
+
+        if ($langueVoulue=="fr"){ // pour que la langue choisie soit selectionner dans l'input 
+            echo"<option value='fr' selected>Français</option>";
+            echo" <option value='en'>English</option>";
+            //echo "<option value='sp'>espagnol</option>" ;  // pour l'espagnol dans la BD 
+            echo "</select>";
+        }
+        else{
+            if ($langueVoulue=="en"){
+                echo"<option value='fr'>Français</option>";
+                echo" <option value='en' selected>English</option>";
+                //echo "<option value='sp'>espagnol</option>" ;  // pour l'espagnol dans la BD 
+                echo "</select>";
+            }
+            else{
+                echo"<option value='fr'>Français</option>";
+                echo" <option value='en'>English</option>";
+                //echo "<option value='sp' seleected>espagnol</option>" ;  // pour l'espagnol dans la BD 
+                echo "</select>";                    
+            }
+        } 
+           ?>
         <button type="submit">Valider la langue choisie</button>
 
         </form>
         
         <?php
 
-        session_start();
-        mb_internal_encoding("UTF-8"); //On indique que toutes les fonctions utilisent UTF-8
-        include './../fonctions.php';
-
-        // ----------- Gestion de la langue voulue  ----------------------------------------------------------------------
-        if (isset($_POST['langues'])) { // Pour que la langue ne change pas a chaque Post (validation d'une ligne)
-            $_SESSION['langue'] = $_POST['langues'];
-        }
-        $langueVoulue = $_SESSION['langue'] ?? "fr"; // on affiche en quel langues est le mot a trouvée
-
-        if ($langueVoulue=="fr"){
-            echo "Le mot que tu dois trouver est en français";
-        }
-        else{
-            if ($langueVoulue=="en"){
-                echo "the word that you will guess is in english";
-            }
-            else{
-                echo "La palabra que debes encontrar está en español";
-
-            }
-        }
         
 
         // ----------- Gestion du score ----------------------------------------------------------------------
@@ -73,6 +79,9 @@
 
         $motActuel = $_POST['motActuel'] ?? []; //$motActuel est le mot en cours de saisie (lettre par lettre)
 
+
+
+
         // ----------- Vérification de saisie  ----------------------------------------------------------------------
         // Si le joueur a soumis un mot 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($motActuel)) { //Vérifie si le joueur a soumis quelque chose
@@ -88,6 +97,7 @@
             //Transforme une chaîne en tableau de lettres, y compris les lettres accentuées (de la meme manière qu'implode au dessus)
             return preg_split('//u', $str, -1, PREG_SPLIT_NO_EMPTY);
         }
+
         // ----------- Gestion des réponses par lettres ----------------------------------------------------------------------
         function evaluerTentative($motSecret, $motSaisi) {
             /* Compare le mot saisi avec le mot a trouver et 
@@ -145,6 +155,8 @@
         <form method="POST">
             <table>
         <?php
+
+
         // ----------- Gestion de la grille ----------------------------------------------------------------------
 
         for ($i = 0; $i < $nombreEssais; $i++) {
