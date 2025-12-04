@@ -67,18 +67,10 @@ echo "Vérification (doit être vide) : " . (empty($verif_delete) ? 'OK, supprim
 
 // Test nouvelle function --> get_random_word
 $random_word = get_random_word();
-if (!empty($random_word)) {
-    echo "Mot aléatoire : FR: {$random_word['fr']}, EN: {$random_word['en']}\n";
-} 
-else {
-    echo "Aucun mot trouvé dans le dictionnaire.\n";
-}
-
-
+echo "Mot aléatoire : FR: {$random_word['fr']}, EN: {$random_word['en']}\n";
 
 // Test nouvelle function --> get_all_categories
 $all_categories = get_all_categories();
-
 echo "Catégories dans le dictionnaire : " . implode($all_categories);
 
 
