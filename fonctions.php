@@ -39,44 +39,12 @@ function to_firestore_array(array $categories): array {
     ];
 }
 
-/**
- * @brief Récupère l'ID complet du document à partir du mot dans la langue spécifiée.
- */
-function get_doc_id_by_word(string $word, string $lang): ?string {
-    global $baseUrl, $apiKey;
-    $url = $baseUrl . "?key=$apiKey";
-
-    $data = api($url, 'GET');
-
-    foreach ($data['documents'] ?? [] as $d) {
-        $f = $d['fields'];
-        if (($f[$lang]['stringValue'] ?? '') === $word) {
-            return $d['name'];
-        }
-    }
-    return null;
-}
 
 
 // ===================================================================================
 // --- Fonctions CRUD et Recherche (Utilisation 1 Ligne) ---
 // ===================================================================================
 
-/**
- * @brief Ajoute un nouveau mot au dictionnaire.
- */
-function add_word(string $fr, string $en, array $categories): array {
-    global $baseUrl, $apiKey;
-    $url = $baseUrl . "?key=$apiKey";
-    
-    $mot_data = ['fields' => [
-        'fr' => ['stringValue' => $fr],
-        'en' => ['stringValue' => $en],
-        'categories' => to_firestore_array($categories)
-    ]];
-
-    return api($url, 'POST', $mot_data);
-}
 
 /**
  * @brief Modifie l'entrée d'un mot existant (Update/PATCH). Le ciblage est bidirectionnel.
@@ -221,4 +189,40 @@ function get_all_categories(): array {
     }
 
     return $all_categories;
+}
+
+/**
+ * @brief Ajoute un mot avec Français, Anglais, Espagnol et Catégories.
+ */
+function add_word(string $fr, string $en, string $es, array $categories): array {
+    global $baseUrl, $apiKey;
+    $url = $baseUrl . "?key=$apiKey";
+    
+    $mot_data = ['fields' => [
+        'fr' => ['stringValue' => $fr],
+        'en' => ['stringValue' => $en],
+        'es' => ['stringValue' => $es], 
+        'categories' => to_firestore_array($categories)
+    ]];
+
+    return api($url, 'POST', $mot_data);
+}
+
+/**
+ * @brief Récupère l'ID complet du document à partir du mot dans la langue spécifiée.
+ */
+function get_doc_id_by_word(string $word, string $lang): ?string {
+    global $baseUrl, $apiKey;
+    $url = $baseUrl . "?key=$apiKey";
+
+    $data = api($url, 'GET');
+
+    foreach ($data['documents'] ?? [] as $d) {
+        $f = $d['fields'];
+        // Vérifie si le champ de la langue existe et correspond au mot
+        if (($f[$lang]['stringValue'] ?? '') === $word) {
+            return $d['name'];
+        }
+    }
+    return null;
 }
