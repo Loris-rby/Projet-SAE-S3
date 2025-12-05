@@ -39,11 +39,29 @@ function to_firestore_array(array $categories): array {
     ];
 }
 
+/**
+ * @brief Récupère l'ID complet du document à partir du mot dans la langue spécifiée.
+ */
+function get_doc_id_by_word(string $word, string $lang): ?string {
+    global $baseUrl, $apiKey;
+    $url = $baseUrl . "?key=$apiKey";
+
+    $data = api($url, 'GET');
+
+    foreach ($data['documents'] ?? [] as $d) {
+        $f = $d['fields'];
+        if (($f[$lang]['stringValue'] ?? '') === $word) {
+            return $d['name'];
+        }
+    }
+    return null;
+}
 
 
 // ===================================================================================
 // --- Fonctions CRUD et Recherche (Utilisation 1 Ligne) ---
 // ===================================================================================
+
 
 
 /**
@@ -162,6 +180,7 @@ function get_random_word(): array {
     return [
         'fr' => $fields['fr']['stringValue'] ?? '',
         'en' => $fields['en']['stringValue'] ?? '',
+        'es' => $fields['es']['stringValue'] ?? '',
         'categories' => $categories
     ];
 }
@@ -206,23 +225,4 @@ function add_word(string $fr, string $en, string $es, array $categories): array 
     ]];
 
     return api($url, 'POST', $mot_data);
-}
-
-/**
- * @brief Récupère l'ID complet du document à partir du mot dans la langue spécifiée.
- */
-function get_doc_id_by_word(string $word, string $lang): ?string {
-    global $baseUrl, $apiKey;
-    $url = $baseUrl . "?key=$apiKey";
-
-    $data = api($url, 'GET');
-
-    foreach ($data['documents'] ?? [] as $d) {
-        $f = $d['fields'];
-        // Vérifie si le champ de la langue existe et correspond au mot
-        if (($f[$lang]['stringValue'] ?? '') === $word) {
-            return $d['name'];
-        }
-    }
-    return null;
 }
