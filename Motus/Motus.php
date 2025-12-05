@@ -72,7 +72,12 @@
         // ----------- Gestion des autres parametres du jeu ----------------------------------------------------------------------
 
         $tailleMot = mb_strlen($motSecret, "UTF-8");
-        $nombreEssais = 5; // nombre de tentatives max
+        if ($tailleMot >=5){// AVEC 5 essai minimum
+            $nombreEssais = $tailleMot; // nombre de tentatives max
+        }
+        else{
+            $nombreEssais = 5; // nombre de tentatives max
+        }
         //recup data post par le tableau
         $tentatives = $_POST['tentatives'] ?? [];  //$tentatives contient tous les mots déjà saisis par le joueur
 
