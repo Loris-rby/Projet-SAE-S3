@@ -67,7 +67,7 @@ echo "Vérification (doit être vide) : " . (empty($verif_delete) ? 'OK, supprim
 
 // Test nouvelle function --> get_random_word
 $random_word = get_random_word();
-echo "Mot aléatoire : FR: {$random_word['fr']}, EN: {$random_word['en']}\n";
+echo "Mot aléatoire : FR: {$random_word['fr']}, EN: {$random_word['en']}, ES: {$random_word['es']}\n";
 
 // Test nouvelle function --> get_all_categories
 $all_categories = get_all_categories();
