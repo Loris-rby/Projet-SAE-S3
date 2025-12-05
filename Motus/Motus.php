@@ -57,7 +57,7 @@
         $_SESSION['score'] = $_SESSION['score'] ?? 0; // Pour creer un score global on le renvoie a chaque Post
         
         ?> <p> <?php
-        echo " Score :".$_SESSION['score'];  // On affiche le score 
+        echo " Score : ".$_SESSION['score'];  // On affiche le score 
         ?> </p> 
         
         <?php
