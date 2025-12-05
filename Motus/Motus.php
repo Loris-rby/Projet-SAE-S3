@@ -19,31 +19,33 @@
         include './../fonctions.php';
 
         // ----------- Gestion de la langue voulue  ----------------------------------------------------------------------
-        if (isset($_POST['langues'])) { // Pour que la langue ne change pas a chaque Post (pour la validation d'une ligne par exempleh)
-            $_SESSION['langue'] = $_POST['langues'];
-        }
+        $_SESSION['langue'] = $_POST['langues'];         // Pour que la langue ne change pas a chaque Post (pour la validation d'une ligne par exempleh)
+
+        
         $langueVoulue = $_SESSION['langue'] ?? "fr"; // on enregistre en quel langue est le mot a trouvée par defaut en français
 
         if ($langueVoulue=="fr"){ // pour que la langue choisie soit selectionner dans l'input 
             echo"<option value='fr' selected>Français</option>";
             echo" <option value='en'>English</option>";
-            //echo "<option value='sp'>espagnol</option>" ;  // pour l'espagnol dans la BD 
+            echo "<option value='es'>Espagnol</option>" ;  // pour l'espagnol dans la BD 
+
             echo "</select>";
         }
-        else{
-            if ($langueVoulue=="en"){
-                echo"<option value='fr'>Français</option>";
-                echo" <option value='en' selected>English</option>";
-                //echo "<option value='sp'>espagnol</option>" ;  // pour l'espagnol dans la BD 
-                echo "</select>";
-            }
-            else{
-                echo"<option value='fr'>Français</option>";
-                echo" <option value='en'>English</option>";
-                //echo "<option value='sp' seleected>espagnol</option>" ;  // pour l'espagnol dans la BD 
-                echo "</select>";                    
-            }
-        } 
+        else if ($langueVoulue=="en"){
+            echo"<option value='fr'>Français</option>";
+            echo" <option value='en' selected>English</option>";
+            echo "<option value='es'>Espagnol</option>" ;  // pour l'espagnol dans la BD 
+
+            echo "</select>";
+        }
+        else if ($langueVoulue=="es"){
+            echo"<option value='fr'>Français</option>";
+            echo" <option value='en'>English</option>";
+            echo "<option value='es' selected>Espagnol</option>" ;  // pour l'espagnol dans la BD 
+
+            echo "</select>";                    
+        }
+        
            ?>
         <button type="submit">Valider la langue choisie</button>
 
@@ -63,12 +65,20 @@
         <?php
         // ----------- Gestion du mot a trouver  ----------------------------------------------------------------------
 
-        if ($_SESSION['motSecret']== NULL) {  // Pour que le mot a trouvée ne change pas a chaque validation d'une ligne
-            
-            $_SESSION['motSecret'] = get_random_word();
-        }
-        $motSecret = $_SESSION['motSecret'][$langueVoulue];        // mot à deviner (garde les accents pour l'affichage)
+         // Pour que le mot a trouvée ne change pas a chaque validation d'une ligne
 
+         // Si le mot secret n'existe pas encore EN SESSION
+        // OU si ce n'est PAS un tableau (ex : erreur précédente où on stockait un string)
+        // OU si la langue demandée n'existe pas dans le tableau (ex : 'es' mais pas de clé 'es')
+        // ALORS on génère un nouveau mot multilingue
+        if (!isset($_SESSION['motSecret']) // Aucun mot stocké
+            || !is_array($_SESSION['motSecret']) // Mauvais format : ce n'est pas un tableau => impossible d'accéder à ['fr'], ['en'], ['es']
+            || !isset($_SESSION['motSecret'][$langueVoulue])){. // La langue demandée n'existe pas dans le tableau
+            $_SESSION['motSecret'] = get_random_word(); // on génère un nouveau mot 
+        }        
+
+        $motSecret = $_SESSION['motSecret'][$langueVoulue];       // mot à deviner (garde les accents pour l'affichage)
+        
         // ----------- Gestion des autres parametres du jeu ----------------------------------------------------------------------
 
         $tailleMot = mb_strlen($motSecret, "UTF-8");
@@ -232,7 +242,7 @@
                 echo "<h2>Perdu ! Le mot était <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b>.</h2>";
                 ?>
                 <form method="POST">
-            <button type="submit">Rejouer</button>
+            <button type="submit">Rejouer</button> 
                 <?php
                 $_SESSION['motSecret'] = get_random_word();
                 ?>
@@ -245,7 +255,7 @@
         }
         ?>
 
-                <p> Pour les accents copier ici : </p>
+        <p> Pour les accents copier ici : </p>
         <p> â - é - è - ê - ñ - ó - í - ñ - ô </p>
                 
     <script src="Motus.js"></script> 
