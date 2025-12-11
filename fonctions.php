@@ -42,9 +42,9 @@ function to_firestore_array(array $categories): array {
 /**
  * @brief Récupère l'ID complet du document à partir du mot dans la langue spécifiée.
  */
-function get_doc_id_by_word(string $word, string $lang): ?string {
-    global $baseUrl, $apiKey;
-    $url = $baseUrl . "?key=$apiKey";
+function get_doc_id_by_word(string $word, string $lang,$url): ?string {
+    global  $apiKey;
+    $url = $url . "?key=$apiKey";
 
     $data = api($url, 'GET');
 
@@ -68,8 +68,8 @@ function get_doc_id_by_word(string $word, string $lang): ?string {
  * @brief Modifie l'entrée d'un mot existant (Update/PATCH). Le ciblage est bidirectionnel.
  */
 function update_word(string $target_word, string $target_lang = 'fr', ?string $new_en = null, ?array $new_categories = null): ?array {
-    global $apiKey;
-    $doc_id = get_doc_id_by_word($target_word, $target_lang);
+    global $apiKey, $baseUrl;
+    $doc_id = get_doc_id_by_word($target_word, $target_lang, $baseUrl);
     
     if (!$doc_id) {
         return null;
@@ -98,8 +98,8 @@ function update_word(string $target_word, string $target_lang = 'fr', ?string $n
  * @brief Supprime une entrée de mot du dictionnaire (Delete). Le ciblage est bidirectionnel.
  */
 function delete_word(string $target_word, string $target_lang = 'fr'): ?array {
-    global $apiKey;
-    $doc_id = get_doc_id_by_word($target_word, $target_lang);
+    global $apiKey, $baseUrl;
+    $doc_id = get_doc_id_by_word($target_word, $target_lang, $baseUrl);
 
     if (!$doc_id) {
         return null;
@@ -225,4 +225,73 @@ function add_word(string $fr, string $en, string $es, array $categories): array 
     ]];
 
     return api($url, 'POST', $mot_data);
+}
+
+
+/**
+ * @brief ajoute une demandes ajouts mots dans le dictionnaire ajout_mot
+ */
+
+function ask_add_word(string $fr, string $en, string $es, array $categories): array {
+    global $baseUrl, $apiKey;
+    $url = $baseUrl . "_ask?key=$apiKey";
+    
+    $mot_data = ['fields' => [
+        'fr' => ['stringValue' => $fr],
+        'en' => ['stringValue' => $en],
+        'es' => ['stringValue' => $es], 
+        'categories' => to_firestore_array($categories)
+    ]];
+
+    return api($url, 'POST', $mot_data);
+}
+
+/**
+ * @brief supprime un mot dans la liste des demandes d'ajouts mots dans le dictionnaire 
+ */
+
+function delete_ask_word(string $target_word, string $target_lang = 'fr'): ?array {
+    global $apiKey, $baseUrl;
+    $url = $baseUrl . "_ask";
+    $doc_id = get_doc_id_by_word($target_word, $target_lang, $url);
+
+    if (!$doc_id) {
+        return null;
+    }  
+    return api($url, 'DELETE');
+}
+
+/**
+ * @brief Récupère toutes les mots demandé 
+ */
+
+function get_all_ask_words(): array {
+    global $baseUrl, $apiKey;
+    $url = $baseUrl . "_ask?key=$apiKey";
+
+    $data = api($url, 'GET');
+    $results = [];
+
+    foreach ($data['documents'] ?? [] as $d) {
+        $f = $d['fields'];
+        $word_fr = $f['fr']['stringValue'] ?? '';
+        $word_en = $f['en']['stringValue'] ?? '';
+        $word_es = $f['es']['stringValue'] ?? '';
+        
+        $categories_php = [];
+        $firestore_categories = $f['categories']['arrayValue']['values'] ?? [];
+
+        foreach ($firestore_categories as $cat_value) {
+            $categories_php[] = $cat_value['stringValue'] ?? '';
+        }
+        
+        $results[] = [
+            'fr' => $word_fr,
+            'en' => $word_en,
+            'es' => $word_es,
+            'categories' => $categories_php
+        ];
+    }
+    
+    return $results;
 }
