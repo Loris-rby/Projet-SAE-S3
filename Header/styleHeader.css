@@ -1,0 +1,49 @@
+/* STYLE HEADER */
+
+
+/* Container principal */
+header {
+    background-color: #333; 
+    padding: 15px 0; /* Un peu d'espace vertical */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Légère ombre pour donner de la profondeur */
+}
+
+
+/* Le conteneur de navigation */
+nav {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    max-width: 100%;
+    margin: 0 auto; /* Centre le conteneur de navigation lui-même */
+}
+
+
+/* Style des liens (balises <a>) */
+nav a {
+    color: #fff; /* Texte blanc */
+    text-decoration: none; /* Supprime le soulignement par défaut */
+    font-size: 1.1em; /* Taille de police légèrement plus grande */
+    font-weight: 500; /* Poids de la police pour un look moderne */
+    padding: 10px 20px; /* Espace autour du texte du lien */
+    margin: 0 10px; /* Marge entre les liens */
+    border-radius: 5px; /* Bords légèrement arrondis */
+    transition: background-color 0.3s, color 0.3s; /* Ajout d'une transition pour une animation douce */
+}
+
+/* Effet au survol (hover) des liens */
+nav a:hover {
+    background-color: #555; /* Fond légèrement plus clair au survol */
+    color: #ffd700; /* Texte de couleur vive (or) au survol, pour l'accent */
+}
+
+
+/* Style pour le lien "actif" (optionnel, nécessite du PHP/JS) */
+/* Exemple : pour le lien de la page courante */
+/*
+nav a.active {
+    background-color: #007bff; 
+    color: #fff;
+    font-weight: bold;
+}
+*/

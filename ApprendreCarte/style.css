@@ -1,38 +1,29 @@
 /* CSS du site MemoDeck de la SAE3 */
 
 
+/* STYLE GENEREAL */
 /* S'assurer que le body et html n'ont pas de marges ni de padding */
 html, body {
     margin: 0;
     padding: 0;
     font-size: 17px;
     align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
-
-
-/* STYLE POUR LE TEXTE POUR LE BODY DE N'IMPORTE QUELLE PAGE */
 /* Style pour les titres */
 h1.centre, h2.centre, h3.centre, p.centre {
     text-align: center;
 }
 
 
-/* Pour centrer le lien et lui donner une police plus grande */
-a.centre {
-    color: #f64b0c; /* Changer la couleur du lien au passage dessus */
-    background-color: rgba(255, 255, 255, 0.5); /* background en blanc mais avec 50% d'opacité' */
-    text-align: center;
-    font-size: 17px;
-    font-weight: bold;
-    transition: color 0.3s ease; /* Ajouter une transition pour lun changement de couleur quand la souris passe au dessus du lien*/
-}
 
 
 
-/* STYLE POUR LES DIV */
-/* Pour aligner la carte avec la page */
-.containerCarte, .containerReponse {
+/* STYLE DIV CARTES */
+/* Container pour la carte pour lui donner un espace dédié */
+.containerCarte {
     display: flex;
     flex-direction: column;
     height: 40vh;
@@ -42,25 +33,17 @@ a.centre {
     perspective: 1000px;    /* Pour effet 3D */
 }
 
-/*Pour alligner la zone de texte avec la carte*/
-.containerReponse {
-    display: flex;
-    height: 20vh;
-    width: 100vw;
-    justify-content: center; 
-    align-items: center;
-}
-
+/* Afficher la carte */
 .carte {
     height: 90%;
-    width: 40%;
+    width: 45%;
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.6s;
     cursor: pointer;
 }
 
-
+/* Style des cartes avant et arrière, en cache 1*/
 .carteAvant, .carteArriere {
     position: absolute;
     width: 100%;
@@ -70,23 +53,21 @@ a.centre {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 28px;
+    font-size: 35px;
     font-weight: bold;
     color: white;
 }
 
 
-/* Carte : Face avant */
+/* Style d'une seule carte*/
 .carteAvant {
     background-color: #1f6545;
 }
 
-/* Carte : Face arrière */
 .carteArriere {  
     background-color: #f97600;
     transform: rotateY(180deg); /* Face arrière tournée */
 }
-
 
 /* Pour retourner la carte */
 .carte.is-flipped {
@@ -94,8 +75,31 @@ a.centre {
 }
 
 
+
+
+/* STYLE CONTAINER REPONSE */
+/* Pour alligner la zone de texte avec la carte et faire en sorte que les infos de cette div ne passe pas par dessus la carte*/
+.containerReponse {
+    display: flex;
+    flex-direction: column;
+    height: 20vh;
+    width: 100vw;
+    justify-content: center; 
+    align-items: center;
+}
+
+/* Pour mettre tous les boutons sur la même ligne */
+.ligneBoutons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px; /* espace entre les deux boutons */
+    width: 100%;
+    margin-top: 10px;
+}
+
 /* Pour mettre a la ligne la zone de texte parce que les <br> ne marche pas */
-.containerReponse input, .containerReponse button, .containerReponse #message{
+.containerReponse input, .containerReponse #message{
     display: block;     /* Forcer à être des blocs */
     margin-top: 10px;
     margin-bottom: 10px;
@@ -110,7 +114,7 @@ a.centre {
     border: 1px solid #ccc;
 }
 
-.containerReponse button {
+.containerReponse button, .containerPersonalisation button {
     padding: 8px 16px;
     font-size: 16px;
     border-radius: 5px;
@@ -121,16 +125,21 @@ a.centre {
     transition: background-color 0.3s;
 }
 
-.containerReponse button:hover {
-    background-color: #d43f08;
+.containerReponse button:hover,  .containerPersonalisation button:hover {
+    background-color: #b33305;
 }
 
 
+
+
+/* STYLE CONTAINER PERSONNALISATION */
 .containerPersonalisation {
-    /*display: flex;
-    flex-direction: column;*/
-    height: 5vh;
-    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    height: 15vh;
+    width: 100%;
     justify-content: center; 
     align-items: center;
+    text-align: center;
 }
+
