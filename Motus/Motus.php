@@ -9,7 +9,7 @@
     <body>
         <h1>Jeu du Motus </h1>
         <h1>Veuillez saisir un mot :</h1>
-        
+
         
         <form method="POST" > 
         <select name="langues"  > 
@@ -19,8 +19,9 @@
         include './../fonctions.php';
 
         // ----------- Gestion de la langue voulue  ----------------------------------------------------------------------
-        $_SESSION['langue'] = $_POST['langues'];         // Pour que la langue ne change pas a chaque Post (pour la validation d'une ligne par exempleh)
-
+        if (isset($_POST['langues'])) {
+            $_SESSION['langue'] = $_POST['langues'];// Pour que la langue ne change pas a chaque Post (pour la validation d'une ligne par exempleh)
+        }
         
         $langueVoulue = $_SESSION['langue'] ?? "fr"; // on enregistre en quel langue est le mot a trouvée par defaut en français
 
@@ -73,7 +74,7 @@
         // ALORS on génère un nouveau mot multilingue
         if (!isset($_SESSION['motSecret']) // Aucun mot stocké
             || !is_array($_SESSION['motSecret']) // Mauvais format : ce n'est pas un tableau => impossible d'accéder à ['fr'], ['en'], ['es']
-            || !isset($_SESSION['motSecret'][$langueVoulue])){. // La langue demandée n'existe pas dans le tableau
+            || !isset($_SESSION['motSecret'][$langueVoulue])){ // La langue demandée n'existe pas dans le tableau
             $_SESSION['motSecret'] = get_random_word(); // on génère un nouveau mot 
         }        
 
