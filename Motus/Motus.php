@@ -4,51 +4,55 @@
         <meta charset="UTF-8">
         <title>Motus </title>
         <link rel="stylesheet" href="./style.css"> 
-
+       <link rel="stylesheet" href="./../Header/styleHeader.css">
     </head>
     <body>
+        <?php
+        require_once './../Header/header.php';
+        ?>
         <h1>Jeu du Motus </h1>
         <h1>Veuillez saisir un mot :</h1>
 
         
-        <form method="POST" > 
-        <select name="langues"  > 
-            <?php 
+        <form method="POST"> 
+        <select name="langues"> 
+        <?php 
         session_start();
         mb_internal_encoding("UTF-8"); //On indique que toutes les fonctions utilisent UTF-8
         include './../fonctions.php';
 
+
         // ----------- Gestion de la langue voulue  ----------------------------------------------------------------------
-        if (isset($_POST['langues'])) {
+        if (isset($_POST['langues'])) { // si POST langues EXISTE ET QU'il N'est PAS égal a NULL
             $_SESSION['langue'] = $_POST['langues'];// Pour que la langue ne change pas a chaque Post (pour la validation d'une ligne par exempleh)
         }
         
         $langueVoulue = $_SESSION['langue'] ?? "fr"; // on enregistre en quel langue est le mot a trouvée par defaut en français
 
-        if ($langueVoulue=="fr"){ // pour que la langue choisie soit selectionner dans l'input 
-            echo"<option value='fr' selected>Français</option>";
-            echo" <option value='en'>English</option>";
-            echo "<option value='es'>Espagnol</option>" ;  // pour l'espagnol dans la BD 
+        if ($langueVoulue=="fr"){ // pour que la langue choisie soit séléctionner dans dans la balise déroulante et dans le POST 
+            echo "<option value='fr' selected>Français</option>";
+            echo "<option value='en'>English</option>";
+            echo "<option value='es'>Espagnol</option>" ; 
 
             echo "</select>";
         }
         else if ($langueVoulue=="en"){
             echo"<option value='fr'>Français</option>";
             echo" <option value='en' selected>English</option>";
-            echo "<option value='es'>Espagnol</option>" ;  // pour l'espagnol dans la BD 
+            echo "<option value='es'>Espagnol</option>" ; 
 
             echo "</select>";
         }
-        else if ($langueVoulue=="es"){
+        else if ($langueVoulue=="es"){ 
             echo"<option value='fr'>Français</option>";
             echo" <option value='en'>English</option>";
-            echo "<option value='es' selected>Espagnol</option>" ;  // pour l'espagnol dans la BD 
+            echo "<option value='es' selected>Espagnol</option>" ; 
 
             echo "</select>";                    
         }
         
            ?>
-        <button type="submit">Valider la langue choisie</button>
+        <button type="submit">Valider la langue choisie</button> 
 
         </form>
         
@@ -57,7 +61,7 @@
         
 
         // ----------- Gestion du score ----------------------------------------------------------------------
-        $_SESSION['score'] = $_SESSION['score'] ?? 0; // Pour creer un score global on le renvoie a chaque Post
+        $_SESSION['score'] = $_SESSION['score'] ?? 0; // Pour creer un score global on le renvoie a chaque Post et par défaut = 0
         
         ?> <p> <?php
         echo " Score : ".$_SESSION['score'];  // On affiche le score 
