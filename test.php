@@ -82,7 +82,7 @@ $res = ask_add_word($ask_word_fr, $ask_word_en, $ask_word_es, ['nourriture']);
 
 
 */
-delete_word('oeuf', 'fr','_ask');
+delete_word('la montagne', 'fr');
 
 
 //parcours et affiche tout les mots demandés
