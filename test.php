@@ -73,19 +73,23 @@ echo "Mot aléatoire : FR: {$random_word['fr']}, EN: {$random_word['en']}, ES: {
 $all_categories = get_all_categories();
 echo "Catégories dans le dictionnaire : " . implode($all_categories);
 
-// Test ask_add_word
 
-$ask_word_fr = 'la montagne';
-$ask_word_en = 'the mountain';
-$ask_word_es = 'la montaña';
-$res = ask_add_word($ask_word_fr, $ask_word_en, $ask_word_es, ['nature', 'paysage']);
+
+$ask_word_fr = 'oeuf';
+$ask_word_en = 'egg';
+$ask_word_es = 'huevo';
+$res = ask_add_word($ask_word_fr, $ask_word_en, $ask_word_es, ['nourriture']);
+
+
 */
+delete_word('oeuf', 'fr','_ask');
 
-delete_ask_word('la montagne', 'fr');
+
 //parcours et affiche tout les mots demandés
 foreach (get_all_ask_words() as $demande) {
     echo "Mot demandé : FR: {$demande['fr']}, EN: {$demande['en']}, ES: {$demande['es']}\n";
 }
+
 
 
 

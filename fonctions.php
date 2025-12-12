@@ -42,9 +42,9 @@ function to_firestore_array(array $categories): array {
 /**
  * @brief Récupère l'ID complet du document à partir du mot dans la langue spécifiée.
  */
-function get_doc_id_by_word(string $word, string $lang,$url): ?string {
-    global  $apiKey;
-    $url = $url . "?key=$apiKey";
+function get_doc_id_by_word(string $word, string $lang,string $url): ?string {
+    global  $apiKey, $baseUrl;
+    $url .= "?key=$apiKey";
 
     $data = api($url, 'GET');
 
@@ -97,18 +97,26 @@ function update_word(string $target_word, string $target_lang = 'fr', ?string $n
 /**
  * @brief Supprime une entrée de mot du dictionnaire (Delete). Le ciblage est bidirectionnel.
  */
-function delete_word(string $target_word, string $target_lang = 'fr'): ?array {
+function delete_word(string $target_word, string $target_lang = 'fr', string $ext=''): ?array {
     global $apiKey, $baseUrl;
-    $doc_id = get_doc_id_by_word($target_word, $target_lang, $baseUrl);
+    
+    // Accès à la bonne collection
+    $collectionUrl = $baseUrl . $ext;
+
+    // Récupère l’ID complet du document
+    $doc_id = get_doc_id_by_word($target_word, $target_lang, $collectionUrl);
 
     if (!$doc_id) {
         return null;
     }
 
-    $url = $doc_id . "?key=$apiKey";
-    
+    // IMPORTANT : reconstruire l'URL ABSOLUE !
+    $url = "https://firestore.googleapis.com/v1/" . $doc_id . "?key=$apiKey";
+
     return api($url, 'DELETE');
 }
+
+
 
 /**
  * @brief Récupère tous les documents et filtre par mot (recherche LIKE) ou par catégorie.
@@ -246,24 +254,6 @@ function ask_add_word(string $fr, string $en, string $es, array $categories): ar
     return api($url, 'POST', $mot_data);
 }
 
-/**
- * @brief supprime un mot dans la liste des demandes d'ajouts mots dans le dictionnaire 
- */
-
-function delete_ask_word(string $target_word, string $target_lang = 'fr'): ?array {
-    global $apiKey, $baseUrl;
-    $url = $baseUrl . "_ask";
-    $doc_id = get_doc_id_by_word($target_word, $target_lang, $url);
-
-    if (!$doc_id) {
-        return null;
-    }  
-    return api($url, 'DELETE');
-}
-
-/**
- * @brief Récupère toutes les mots demandé 
- */
 
 function get_all_ask_words(): array {
     global $baseUrl, $apiKey;
