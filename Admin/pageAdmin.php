@@ -19,13 +19,11 @@
                 <ul>
                 <?php
 
+                    // recup fichier 
+                    require_once './../fonctions.php';
+
                     // recup demandes
-                    $lesDemandes = array();
-                    $lesDemandes[0] = [
-                        "fr"=>"test",
-                        "en"=>"test",
-                        "es"=>"test"
-                    ];
+                    $lesDemandes = get_all_ask_words();
 
                     // afficher demandes
                     foreach ($lesDemandes as $demande){
@@ -33,7 +31,7 @@
                         $fr = $demande['fr'] ?? NULL;
                         $en = $demande['en'] ?? NULL;
                         $es = $demande['es'] ?? NULL;
-                        $categ = $demande['categorie'] ?? NULL;
+                        $categ = $demande['categories'] ?? NULL;
 
                         echo "<li>";
 
@@ -42,10 +40,10 @@
                         echo "Espagnol : ".$es." , ";
 
                         // refuser requette 
-                        echo '<a href="./suprDemande.php">Refuser</a> ou ';
+                        echo '<a href="./suprDemande.php?fr='.$fr.'">Refuser</a> ou ';
 
                         // valider requette 
-                        echo '<a href="./ajouterMot.php?fr='.$fr.'&en='.$en.'&es='.$es.'&categ='.$categ.'">Valider</a>';
+                        echo '<a href="./ajouterMot.php?fr='.$fr.'&en='.$en.'&es='.$es.'">Valider</a>';
 
                         echo "</li>";
                     }

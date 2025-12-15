@@ -23,7 +23,6 @@
                         $categRecherche = null;
                     }
                 }catch( Exception $e ){}
-
             ?>
 
             <div class="blocInfo">
@@ -45,15 +44,15 @@
                     <select name="categRecherche" id="categRecherche">
                         <option value="TOUTES" >N'importe quelle catégorie</option>
                         <?php
-                        // Récupérer toutes les categories pour la liste déroulante
-                        $allCateg = get_all_categories();
-                        $nbrCateg = count($allCateg);
-                        for ($i = 0; $i<$nbrCateg; $i++){
-                            $theCateg = $allCateg[$i];
-                            echo "<option value='".$theCateg;
-                            echo "'>";
-                            echo $theCateg."</option>";
-                        }
+                            // Récupérer toutes les categories pour la liste déroulante
+                            $allCateg = get_all_categories();
+                            $nbrCateg = count($allCateg);
+                            for ($i = 0; $i<$nbrCateg; $i++){
+                                $theCateg = $allCateg[$i];
+                                echo "<option value='".$theCateg;
+                                echo "'>";
+                                echo $theCateg."</option>";
+                            }
                         ?>
                     </select>
 
@@ -65,12 +64,7 @@
 
             <!-- PHP récup choix utilisateur & mots voulu dans base donnée -->
             <?php
-                
-
                 $mots = get_dictionary_words($texteRecherche, $langueRecherche, $categRecherche); 
-                
-                //echo var_dump($mots);
-                
             ?>
 
             <div class="blocInfo">

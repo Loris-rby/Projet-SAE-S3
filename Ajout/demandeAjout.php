@@ -36,7 +36,10 @@
 
                 <?php
                     // message de validation de l'ajout de la demande
-                    if (isset($_REQUEST['valid'])){
+                    if(isset($_REQUEST['erreur'])){
+                        echo '<p>Erreur d\'enregistrement de la demande du mot <b>"'.$_REQUEST['erreur'].'"</b></p><br>';
+                    }
+                    else if (isset($_REQUEST['valid'])){
                         echo '<p>Demande d\'ajout du mot <b>"'.$_REQUEST['valid'].'"</b> bien enregistrée !</p><br>';
                     }
                 ?>
