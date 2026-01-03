@@ -14,7 +14,7 @@
             <div class="blocInfo">
                 <h2>Ajout</h2>
 
-                <form action="./creationDemande.php" method="GET">
+                <form id="formAjout" action="./creationDemande.php" method="GET">
 
                     <!-- Texte FR -->
                     <label for="texteFR">Écriture du mot en Français</label>
@@ -26,11 +26,57 @@
 
                     <!-- Texte FR -->
                     <label for="texteES">Écriture du mot en Espagnol</label>
-                    <input type="text" id="texteES" name="texteES"/><br>
+                    <input type="text" id="texteES" name="texteES"/><br><br>
+
+                    <!-- Select catégorie -->
+                    <select name="" id="categSelect">
+                        <?php
+                            require_once './../fonctions.php';
+
+                            // Récupérer toutes les categories pour la liste déroulante
+                            $allCateg = get_all_categories();
+                            $nbrCateg = count($allCateg);
+                            for ($i = 0; $i<$nbrCateg; $i++){
+                                $theCateg = $allCateg[$i];
+                                echo "<option value='".$theCateg."'>";
+                                echo $theCateg."</option>";
+                            }
+                        ?>
+                    </select>
+
+                    <!-- Ajouter catégorie -->
+                    <button type="button" onclick="ajouterCategorie();">Ajouter Catégorie</button><br>
+                    
+                    <div id="categories"></div>
+                    <!-- JS gestion catégories -->
+                    <script>
+                        var categChoisies = [];
+
+                        function ajouterCategorie(){
+                            var categSelect = document.getElementById("categSelect");
+                            var categ = categSelect.value;
+
+                            if( !categChoisies.includes(categ) ){
+                                categChoisies.push(categ);
+
+                                var input = document.createElement("input");
+                                input.type = "text";
+                                input.name = "categs[]";
+                                input.readOnly = true;
+                                //input.className = ""; // set the CSS class
+
+                                input.value = categ;
+
+                                var divCateg = document.getElementById("categories");
+                                divCateg.appendChild(input); // put it into the DOM
+                                divCateg.appendChild(document.createElement("br"));
+                            }
+                        }
+                    </script>
 
 
                     <!-- Valider -->
-                    <input type="submit" value="Demande l'ajout"/>
+                    <br><input type="submit" value="Demande l'ajout"/>
                 </form>
 
 
