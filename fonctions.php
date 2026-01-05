@@ -109,8 +109,7 @@ function delete_word(string $target_word, string $target_lang = 'fr', string $ex
     if (!$doc_id) {
         return null;
     }
-
-    // IMPORTANT : reconstruire l'URL ABSOLUE !
+    
     $url = "https://firestore.googleapis.com/v1/" . $doc_id . "?key=$apiKey";
 
     return api($url, 'DELETE');

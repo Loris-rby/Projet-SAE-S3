@@ -1,24 +1,19 @@
-Voici **le fichier complet en texte brut Markdown**, prêt à être copié/collé dans ton dépôt GitHub ou ton README.md :
-
----
-
-````md
 # Documentation du Dictionnaire Firestore (PHP)
 
 Ce projet utilise l'API REST de Google Firestore pour gérer un dictionnaire multilingue.  
-La structure est organisée pour séparer clairement :
+Structure des fichiers :
 
-1. **`functions.php`** : Logique métier et accès Firestore (CRUD + recherche + utilitaires).
-2. **`test.php`** : Exemples d’utilisation en une seule ligne.
+1. **`functions.php`** : Logique métier et accès Firestore (CRUD + recherche + utilitaires)
+2. **`test.php`** : Exemples d’utilisation des fonctions
 
 ---
 
 ## ⚙️ Configuration Requise
 
 - Une **clé API Firestore** valide :
-  ```php
+```php
   $apiKey = 'VOTRE_CLE_API';
-````
+```
 
 * L’URL de la collection principale :
 
