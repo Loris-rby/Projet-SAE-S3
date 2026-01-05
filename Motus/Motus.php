@@ -6,58 +6,90 @@
         <link rel="stylesheet" href="./style.css"> 
        <link rel="stylesheet" href="./../Header/styleHeader.css">
     </head>
+
+
     <body>
         <?php
+        session_start();
         require_once './../Header/header.php';
         ?>
-        <h1>Jeu du Motus </h1>
-        <h1>Veuillez saisir un mot :</h1>
 
-        
+        <h1 class="centre">Jeu du Motus </h1>
+        <h3 class="centre">Concept :</h3>
+        <p class="centre">Veuillez saisir un mot :</p>
+
         <form method="POST"> 
-        <select name="langues"> 
+
+        <h3 class="centre">Personnaliser votre apprentissage : </h3>
+            <br>
+        <label for="langueChoisie" class="centre">Choisir une langue : </label>
+        <select name="langues" class="centre"> 
+        
+
+
         <?php 
-        session_start();
         mb_internal_encoding("UTF-8"); //On indique que toutes les fonctions utilisent UTF-8
         include './../fonctions.php';
 
 
         // ----------- Gestion de la langue voulue  ----------------------------------------------------------------------
-        if (isset($_POST['langues'])) { // si POST langues EXISTE ET QU'il N'est PAS égal a NULL
-            $_SESSION['langue'] = $_POST['langues'];// Pour que la langue ne change pas a chaque Post (pour la validation d'une ligne par exempleh)
+        if (isset($_POST['langues'])) {// si POST langues EXISTE ET QU'il N'est PAS égal a NULL
+            $_SESSION['langue'] = $_POST['langues'];
         }
+        $langueVoulue = $_SESSION['langue'] ?? 'fr';// Pour que la langue ne change pas a chaque Post (pour la validation d'une ligne par exemple) 
+        // on enregistre en quel langue est le mot a trouvée par defaut en français
+
+         // pour que la langue choisie soit séléctionner dans dans la balise déroulante et dans le POST 
+                    ?>
+
+            <option value='fr' <?php if ($langueVoulue=="fr")echo "selected";?>>Français</option>
+            <option value='en'<?php if ($langueVoulue=="en")echo "selected";?>>English</option>
+            <option value='es' <?php if ($langueVoulue=="es")echo "selected";?>>Espagnol</option> 
         
-        $langueVoulue = $_SESSION['langue'] ?? "fr"; // on enregistre en quel langue est le mot a trouvée par defaut en français
-
-        if ($langueVoulue=="fr"){ // pour que la langue choisie soit séléctionner dans dans la balise déroulante et dans le POST 
-            echo "<option value='fr' selected>Français</option>";
-            echo "<option value='en'>English</option>";
-            echo "<option value='es'>Espagnol</option>" ; 
-
-            echo "</select>";
-        }
-        else if ($langueVoulue=="en"){
-            echo"<option value='fr'>Français</option>";
-            echo" <option value='en' selected>English</option>";
-            echo "<option value='es'>Espagnol</option>" ; 
-
-            echo "</select>";
-        }
-        else if ($langueVoulue=="es"){ 
-            echo"<option value='fr'>Français</option>";
-            echo" <option value='en'>English</option>";
-            echo "<option value='es' selected>Espagnol</option>" ; 
-
-            echo "</select>";                    
-        }
         
-           ?>
+           </select>
         <button type="submit">Valider la langue choisie</button> 
 
-        </form>
-        
-        <?php
+           <?php 
+           // ----------- Gestion de la catégorie   ----------------------------------------------------------------------
 
+           ?>
+        <br>
+        <?php 
+        if (isset($_POST['categ'])) {
+            $_SESSION['categ'] = $_POST['categ'];
+        }
+        $categChoisie = $_SESSION['categ'] ?? "tout";
+        $catForWord = ($categChoisie === 'tout') ? null : $categChoisie;
+        ?>
+        <label for="categorieChoisie" class="centre">Choisir une catégorie spécifique :</label>
+
+    <select name="categ" class="centre">
+    
+    <!-- Option "Tout" toujours présente -->
+    <option value="tout" <?php if($categChoisie=='tout')echo "selected";?>>Tout</option>
+
+    <?php 
+    // Boucle sur toutes les catégories récupérées par la fonction get_all_categories()
+    foreach (get_all_categories() as $categorie) {
+
+    // Commence l'option HTML
+    echo '<option value="' . $categorie . '"';
+    
+    // Si la catégorie correspond à celle choisie, on met selected
+    if ($categChoisie == $categorie) {
+        echo ' selected';
+    }
+    // ferme l'option
+    echo '>' . $categorie . '</option>';
+    }
+    ?>
+
+    </select>
+    <button type="submit">Valider la catégorie choisie</button>
+
+        </form>
+        <?php
         
 
         // ----------- Gestion du score ----------------------------------------------------------------------
@@ -68,27 +100,50 @@
         ?> </p> 
         
         <?php
-        // ----------- Gestion du mot a trouver  ----------------------------------------------------------------------
+        
+      
+// ----------- Gestion du mot a trouver  ----------------------------------------------------------------------
 
-         // Pour que le mot a trouvée ne change pas a chaque validation d'une ligne
+         /* Pour que le mot a trouvée ne change pas a chaque validation d'une ligne
 
-         // Si le mot secret n'existe pas encore EN SESSION
-        // OU si ce n'est PAS un tableau (ex : erreur précédente où on stockait un string)
-        // OU si la langue demandée n'existe pas dans le tableau (ex : 'es' mais pas de clé 'es')
-        // ALORS on génère un nouveau mot multilingue
-        if (!isset($_SESSION['motSecret']) // Aucun mot stocké
-            || !is_array($_SESSION['motSecret']) // Mauvais format : ce n'est pas un tableau => impossible d'accéder à ['fr'], ['en'], ['es']
-            || !isset($_SESSION['motSecret'][$langueVoulue])){ // La langue demandée n'existe pas dans le tableau
-            $_SESSION['motSecret'] = get_random_word(); // on génère un nouveau mot 
-        }        
+        Si le mot secret n'existe pas encore EN SESSION
+         OU si ce n'est PAS un tableau (ex : erreur précédente où on stockait un string)
+         OU si la langue demandée n'existe pas dans le tableau (ex : 'es' mais pas de clé 'es')
+         ALORS on génère un nouveau mot multilingue*/
+        // Si mot secret absent ou incohérent, on génère un nouveau mot
+        if (
+        !isset($_SESSION['motSecret']) ||
+        !is_array($_SESSION['motSecret']) ||
+        ($_SESSION['motSecret']['langue'] ?? '') !== $langueVoulue ||
+        ($_SESSION['motSecret']['categorie'] ?? null) !== $catForWord
+        ) {
+            $mot = get_random_word_par_categ_et_langues($langueVoulue, $catForWord);
 
-        $motSecret = $_SESSION['motSecret'][$langueVoulue];       // mot à deviner (garde les accents pour l'affichage)
+            $_SESSION['motSecret'] = [
+                'fr' => $mot['fr'] ?? '',
+                'en' => $mot['en'] ?? '',
+                'es' => $mot['es'] ?? '',
+                'categories' => $mot['categories'] ?? [],
+                'categorie' => $catForWord,
+                'langue' => $langueVoulue
+            ];
+        }
+
+        // Mot à deviner dans la langue sélectionnée
+        $motSecret = $_SESSION['motSecret'][$langueVoulue];// mot à deviner (garde les accents pour l'affichage)
+        //var_dump($_SESSION['motSecret']);
+        if ($motSecret === '') {
+            die("Erreur : impossible de générer un mot pour cette catégorie/langue.");
+        }
         
         // ----------- Gestion des autres parametres du jeu ----------------------------------------------------------------------
 
         $tailleMot = mb_strlen($motSecret, "UTF-8");
-        if ($tailleMot >=5){// AVEC 5 essai minimum
+        if ($tailleMot >=5 && $tailleMot<10){// AVEC 5 essai minimum
             $nombreEssais = $tailleMot; // nombre de tentatives max
+        }
+        elseif($tailleMot>=10){
+            $nombreEssais = 10;
         }
         else{
             $nombreEssais = 5; // nombre de tentatives max
@@ -237,21 +292,23 @@
                     echo "<h2>Bravo ! Vous avez trouvé le mot <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b> !</h2>";
                     ?>
                     <form method="POST">
-            <button type="submit">Rejouer</button>
-                <?php
-                $_SESSION['motSecret']=get_random_word();
-                ?>
-            </form> <?php
+                        <button type="submit" name="rejouer" value="1">Rejouer</button>
+                        <?php
+                        $_SESSION['motSecret'] = get_random_word();
+                        ?>
+                
+                    </form> 
+            <?php
             } elseif (count($tentatives) >= $nombreEssais) {
                 $_SESSION['score'] = 0; // remettre le score a 0
                 echo "<h2>Perdu ! Le mot était <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b>.</h2>";
                 ?>
                 <form method="POST">
-            <button type="submit">Rejouer</button> 
-                <?php
-                $_SESSION['motSecret'] = get_random_word();
-                ?>
-            </form> 
+                    <button type="submit" name="rejouer" value="1">Rejouer</button> 
+                    <?php
+                    $_SESSION['motSecret'] = get_random_word();
+                    ?>
+                </form> 
             <?php
             } ?>
             <p></p>

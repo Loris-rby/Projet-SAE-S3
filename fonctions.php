@@ -131,7 +131,7 @@ function get_dictionary_words(?string $filter_word_like = null, string $filter_l
         $f = $d['fields'];
         $word_fr = $f['fr']['stringValue'] ?? '';
         $word_en = $f['en']['stringValue'] ?? '';
-        
+        $word_es = $f['es']['stringValue'] ?? '';
         // Extraction des catégories (ArrayValue -> PHP array)
         $categories_php = [];
         $firestore_categories = $f['categories']['arrayValue']['values'] ?? [];
@@ -141,8 +141,15 @@ function get_dictionary_words(?string $filter_word_like = null, string $filter_l
         }
         
         // --- Logique de Filtrage ---
-        $target_word = ($filter_lang === 'en') ? $word_en : $word_fr;
-
+        if ($filter_lang === 'fr') {
+            $target_word = $word_fr;
+        } elseif ($filter_lang === 'en') {
+            $target_word = $word_en;
+        } elseif ($filter_lang === 'es') {
+            $target_word = $word_es;
+        } else {
+            $target_word = $word_fr; //  default choice
+        }
         // Filtrage LIKE (utilisation de stristr pour une recherche insensible à la casse)
         $pass_word_filter = ($filter_word_like === null || stristr($target_word, $filter_word_like) !== false);
 
@@ -154,6 +161,7 @@ function get_dictionary_words(?string $filter_word_like = null, string $filter_l
             $results[] = [
                 'fr' => $word_fr,
                 'en' => $word_en,
+                'es' => $word_es,
                 'categories' => $categories_php
             ];
         }
@@ -283,4 +291,29 @@ function get_all_ask_words(): array {
     }
     
     return $results;
+}
+
+function get_random_word_par_categ_et_langues(string $langue = 'fr', ?string $categorie = null): array {
+    // On récupère uniquement les mots correspondant au filtre
+    $motsFiltres = get_dictionary_words(null, $langue, $categorie);
+
+    if (empty($motsFiltres)) {
+        // fallback si aucun mot ne correspond : renvoyer toutes les langues avec des chaînes vides
+        return [
+            'fr' => '',
+            'en' => '',
+            'es' => '',
+            'categories' => []
+        ];
+    }
+
+    $mot = $motsFiltres[array_rand($motsFiltres)];
+
+    // S'assurer que toutes les langues existent
+    return [
+        'fr' => $mot['fr'] ?? '',
+        'en' => $mot['en'] ?? '',
+        'es' => $mot['es'] ?? '',
+        'categories' => $mot['categories'] ?? []
+    ];
 }
