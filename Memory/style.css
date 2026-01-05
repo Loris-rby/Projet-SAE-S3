@@ -12,6 +12,7 @@ html, body {
     width: 100%;
 }
 
+
 /* Style pour les titres */
 h1.centre, h2.centre {
     text-align: center;
@@ -20,26 +21,43 @@ h1.centre, h2.centre {
 h3.centre, p.centre {
     text-align: center;
     margin-top: 0%;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
 
 /* STYLE DIV CARTES */
 /* Container pour la carte pour lui donner un espace dédié */
-.containerCarte {
+.containerGrilleJeu {
+    display: flex;
+    height: 60vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    height: 40vh;
-    width: 100vw;
     justify-content: center; 
     align-items: center;
     perspective: 1000px;    /* Pour effet 3D */
 }
 
+
+.containerLigne1 {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    margin: 10px;
+    flex-direction: row;
+    justify-content: center;   /* centrer les cartes */
+    gap: 20px;
+    /* Style pour le retournement de carte */
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+    }
+
+
 /* Afficher la carte */
 .carte {
-    height: 90%;
-    width: 45%;
+    height: 100%;
+    width: 17%;
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.6s;
@@ -56,7 +74,7 @@ h3.centre, p.centre {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 35px;
+    font-size: 25px;
     font-weight: bold;
     color: white;
 }
@@ -117,7 +135,7 @@ h3.centre, p.centre {
     border: 1px solid #ccc;
 }
 
-.containerReponse button, .containerPersonalisation input {
+.containerReponse button, .containerPersonalisation button {
     padding: 8px 16px;
     font-size: 16px;
     border-radius: 5px;
@@ -128,7 +146,7 @@ h3.centre, p.centre {
     transition: background-color 0.3s;
 }
 
-.containerReponse button:hover,  .containerPersonalisation input:hover {
+.containerReponse button:hover,  .containerPersonalisation button:hover {
     background-color: #b33305;
 }
 

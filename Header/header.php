@@ -16,7 +16,7 @@
                     <a href="">Dictionnaire</a>
                     <a href="./../Motus/Motus.php">Motus</a>
                     <a href="./../ApprendreCarte/apprendreCarte.php">Cartes</a>
-                    <a href="">Memory</a>
+                    <a href="./../Memory/memory.php">Memory</a>
                 </nav>
         </header>
     </body>

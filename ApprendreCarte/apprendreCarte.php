@@ -11,9 +11,10 @@
     <body>
         <!------------------------------------- PARTIE PHP 1 ---------------------------------------
          1. Démarrer une session pour le score
-         2. Lier le fichier fonctions.php de Loris pour manipuler les fonctions déjà faite sur la base de données
-         3. Récupérer le score envoyé à php après le rechargement de la page
-         4. Récupérer le score dans une variable pour l'afficher
+         2. Récupérer le header
+         3. Lier le fichier fonctions.php de Loris pour manipuler les fonctions déjà faite sur la base de données
+         4. Récupérer le score envoyé à php après le rechargement de la page
+         5. Récupérer le score dans une variable pour l'afficher
         -->
         <?php
         // Pour démarrer une session & lier fonctions.php
@@ -99,7 +100,7 @@
         $motRandom = get_random_word();
         $motFR = $motRandom['fr'];
         $motENG = $motRandom['en'];
-        //$motESP = $motRandom['es'];
+        $motESP = $motRandom['es'];
         // Variable par défaut pour pouvoir afficher le message de réussite ou d'echec
         $message = ""; 
 
@@ -159,7 +160,7 @@
                     <!-- Pour envoyer le score à PHP pour qu'il ne se remette pas a 0 à chaque nouveau mot -->
                     <input type="hidden" name="score" id="scoreCache" value="<?php echo $currentScore; ?>">
                     <button type="submit" id="btnNext">Suivant</button>
-                    <button type="submit" id="btnReset">Réinitialiser</button>
+                    <!--<button type="submit" id="btnReset">Réinitialiser</button>-->
                 </form>
             </div>
 
