@@ -14,52 +14,73 @@
             <div class="blocInfo">
 
                 <h2>Demandes d'ajouts</h2>
-
-
+                
                 <ul>
                 <?php
 
-                    // recup fichier 
-                    require_once './../fonctions.php';
+                    $identifiant = $_REQUEST['identifiant'];
+                    $motDePasse = $_REQUEST['mot2passe'];
 
-                    // recup demandes
-                    $lesDemandes = get_all_ask_words();
+                    if($identifiant == "admin"){
+                        if($motDePasse == "Isanum64!"){
+                            
+                            // recup fichier 
+                            require_once './../fonctions.php';
 
-                    // afficher demandes
-                    foreach ($lesDemandes as $demande){
+                            // recup demandes
+                            $lesDemandes = get_all_ask_words();
 
-                        $fr = $demande['fr'] ?? NULL;
-                        $en = $demande['en'] ?? NULL;
-                        $es = $demande['es'] ?? NULL;
-                        $categ = $demande['categories'] ?? NULL;
+                            // afficher demandes
+                            foreach ($lesDemandes as $demande){
 
-                        echo "<li>";
+                                $fr = $demande['fr'] ;
+                                $en = $demande['en'] ;
+                                $es = $demande['es'] ;
+                                $categs = $demande['categories'] ;
 
-                        echo "Français : ".$fr." , ";
-                        echo "Anglais : ".$en." , ";
-                        echo "Espagnol : ".$es." , ";
+                                echo "<div class='demandeAjout'>";
 
-                        // refuser requette 
-                        echo '<a href="./suprDemande.php?fr='.$fr.'">Refuser</a> ou ';
+                                echo "<b>Français :</b> ".$fr.", ";
+                                echo "<b>Anglais :</b> ".$en.", ";
+                                echo "<b>Espagnol :</b> ".$es."<br>";
 
-                        // valider requette 
-                        echo '<a href="./ajouterMot.php?fr='.$fr.'&en='.$en.'&es='.$es.'">Valider</a>';
+                                echo "<b>Catégories :</b> ";
+                                foreach ($categs as $categ){
+                                    echo $categ.", ";
+                                }
+                                echo "<br>";
 
-                        echo "</li>";
+                                // refuser requette 
+                                echo '<a href="./suprDemande.php?fr='.$fr.'&identifiant='.$identifiant.'&mot2passe='.$motDePasse.'"><b>Refuser</b></a> ou ';
+
+                                // valider requette 
+                                echo '<a href="./ajouterMot.php?fr='.$fr.'&en='.$en.'&es='.$es.'&identifiant='.$identifiant.'&mot2passe='.$motDePasse;
+                                foreach ($categs as $categ){
+                                    echo '&categs[]='.$categ;
+                                }
+                                echo '"><b>Valider</b></a> ?';
+
+                                echo "</div>";
+                            }
+
+                            
+                
+                            if (isset($_REQUEST['supr'])){
+                                echo '<p>Demande d\'ajout du mot <b>"'.$_REQUEST['supr'].'"</b> bien suprimée.</p><br>';
+                            }
+                            if (isset($_REQUEST['valid'])){
+                                echo '<p>Mot <b>"'.$_REQUEST['valid'].'"</b> bien ajouté à la base.</p><br>';
+                            }
+
+
+                        }else{
+                            echo '<script>window.location.replace("./connectionAdmin.php?erreur=mot2passe");</script>';
+                        }
+                    }else{
+                        echo '<script>window.location.replace("./connectionAdmin.php?erreur=id");</script>';
                     }
-
                 ?>
                 </ul>
-
-                <?php
-                    if (isset($_REQUEST['supr'])){
-                        echo '<p>Demande d\'ajout du mot <b>"'.$_REQUEST['supr'].'"</b> bien suprimée.</p><br>';
-                    }
-                    if (isset($_REQUEST['valid'])){
-                        echo '<p>Mot <b>"'.$_REQUEST['valid'].'"</b> bien ajouté à la base.</p><br>';
-                    }
-                ?>
-
 
             </div>
                 

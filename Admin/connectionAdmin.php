@@ -14,7 +14,7 @@
             <div class="blocInfo">
                 <h2>Identification</h2>
 
-                <form action="./controleurAdmin.php" method="POST">
+                <form action="./pageAdmin.php" method="POST">
 
                     <!-- identifiant -->
                     <label for="identifiant">Identifiant</label>
