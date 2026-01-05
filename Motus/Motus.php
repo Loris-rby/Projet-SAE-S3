@@ -48,7 +48,6 @@
         
         
            </select>
-        <button type="submit">Valider la langue choisie</button> 
 
            <?php 
            // ----------- Gestion de la catégorie   ----------------------------------------------------------------------
@@ -86,7 +85,8 @@
     ?>
 
     </select>
-    <button type="submit">Valider la catégorie choisie</button>
+    <br>
+    <button type="submit">Valider</button>
 
         </form>
         <?php
