@@ -10,6 +10,7 @@
 
     <body>
         <!------------------------------------- PARTIE PHP 1 ---------------------------------------
+         bonjour
          1. Démarrer une session pour le score
          2. Récupérer le header
          3. Lier le fichier fonctions.php de Loris pour manipuler les fonctions déjà faite sur la base de données
