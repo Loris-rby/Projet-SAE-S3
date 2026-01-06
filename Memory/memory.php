@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>MD - Memory</title>
-        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="./../style.css">
         <link rel="stylesheet" href="./../Header/styleHeader.css">
     </head>
 
@@ -15,7 +15,7 @@
         -->
         <?php
         require_once './../fonctions.php';
-        require_once './../Header/header.php';
+        require_once './../header.php';
         ?>
 
 

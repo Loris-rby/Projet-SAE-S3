@@ -3,14 +3,12 @@
 <html>
     <head>
         <title>MD - Apprentissage par carte</title>
-        <link rel="stylesheet" href="./style.css">
-        <link rel="stylesheet" href="./../Header/styleHeader.css">
+        <link rel="stylesheet" href="./../style.css">
     </head>
 
 
     <body>
         <!------------------------------------- PARTIE PHP 1 ---------------------------------------
-         bonjour
          1. Démarrer une session pour le score
          2. Récupérer le header
          3. Lier le fichier fonctions.php de Loris pour manipuler les fonctions déjà faite sur la base de données
@@ -21,7 +19,7 @@
         // Pour démarrer une session & lier fonctions.php
         session_start();
         require_once './../fonctions.php';
-        require_once './../Header/header.php';
+        require_once './../header.php';
 
         // Récupérer le score par PHP
         if(isset($_POST['score'])){

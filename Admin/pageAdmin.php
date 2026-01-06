@@ -2,10 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="./style.css" />
+        <link rel="stylesheet" href="./../style.css" />
         <title>Admin</title>
     </head>
     <body>
+
+        <?php
+            require_once './../header.php';
+        ?>
 
         <div id="pageAcceuil">
 

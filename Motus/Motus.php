@@ -3,15 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>Motus </title>
-        <link rel="stylesheet" href="./style.css"> 
-       <link rel="stylesheet" href="./../Header/styleHeader.css">
+        <link rel="stylesheet" href="./../style.css"> 
     </head>
 
 
     <body>
         <?php
         session_start();
-        require_once './../Header/header.php';
+        require_once './../header.php';
         ?>
 
         <h1 class="centre">Jeu du Motus </h1>
@@ -29,7 +28,7 @@
 
         <?php 
         mb_internal_encoding("UTF-8"); //On indique que toutes les fonctions utilisent UTF-8
-        include './../fonctions.php';
+        require_once './../fonctions.php';
 
 
         // ----------- Gestion de la langue voulue  ----------------------------------------------------------------------
