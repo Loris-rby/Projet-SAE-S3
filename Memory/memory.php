@@ -14,9 +14,39 @@
          1. Récupérer le header
         -->
         <?php
+        // Pour démarrer une session & lier fonctions.php
+        session_start();
         require_once './../fonctions.php';
         require_once './../header.php';
+
+        // Récupérer le score par PHP
+        if(isset($_POST['score'])){
+            $_SESSION['score'] = (int)$_POST['score'];
+        }
+        $currentScore = $_SESSION['score'] ?? 0;
+
+
+        // Valeurs par défaut
+        $langue = $_SESSION['langue'] ?? 1;
+        $tag = $_SESSION['tag'] ?? 'rien';
+
+        // Si le formulaire est soumis, on met à jour les valeurs
+        if (isset($_GET['langue'])) {
+            $langue = (int) $_GET['langue'];
+            $_SESSION['langue'] = $langue;
+        }
+
+        if (isset($_GET['tag'])) {
+            $tag = $_GET['tag'];
+            $_SESSION['tag'] = $tag;
+        }
+
+        // Récupérer toutes les catégories pour la liste déroulante
+        $allCateg = get_all_categories();
         ?>
+
+
+        
 
 
 
@@ -26,11 +56,14 @@
         1. Afficher le texte en haut
         -->
         <h1 class="centre">Jeu du mémory</h1>
-        <h3 class="centre">Concept :</h3>
-        <p class="centre">Le jeu se compose d'une grille de 16 cartes. À chaque tour, vous pouvez retourner deux cartes.</p>
-        <p class="centre">Votre objectif est de trouver la paire correspondante : une carte avec un mot en français et sa traduction en anglais. Si vous trouvez une paire correcte, les deux cartes restent retournées.</p>
-        <p class="centre">Ce jeu vous permet de stimuler votre mémoire tout en renforçant votre vocabulaire en français et en anglais.</p>
-        
+
+        <div class="moyenLarge">
+            <h3 class="centre">Concept :</h3>
+            <p class="centre">Le jeu se compose d'une grille de 16 cartes. À chaque tour, vous pouvez retourner deux cartes.</p>
+            <p class="centre">Votre objectif est de trouver la paire correspondante : une carte avec un mot en français et sa traduction en anglais. Si vous trouvez une paire correcte, les deux cartes restent retournées.</p>
+            <p class="centre">Ce jeu vous permet de stimuler votre mémoire tout en renforçant votre vocabulaire en français et en anglais.</p>
+            <br>
+        </div>
 
 
 
@@ -42,19 +75,16 @@
          2. Liste déroulante des catégories de mots
          3. Bouton valider 
         -->
-        <div class="containerPersonalisation">
+        <div class="containerPersonalisation blocInfo">
             <h3>Personnaliser votre apprentissage : </h3>
             <form method="GET">
                 <label for="langueChoisie">Choisir une langue : </label>
                 <select name="langue" id="langueChoisie">
-                    <option value="1">FR-ENG</option>
-                    <option value="2">FR-ESP</option>
-                    <option value="3">ENG-FR</option>
-                    <option value="4">ENG-ESP</option>
+                    <option value="1" <?= $langue == 1 ? 'selected' : '' ?>>FR-ENG</option>
+                    <option value="2" <?= $langue == 2 ? 'selected' : '' ?>>FR-ESP</option>
+                    <option value="3" <?= $langue == 3 ? 'selected' : '' ?>>ENG-FR</option>
+                    <option value="4" <?= $langue == 4 ? 'selected' : '' ?>>ENG-ESP</option>
                 </select>
-
-
-
 
                 <br>
                 <label for="langueChoisie">Choisir une catégorie de mots : </label>
@@ -62,24 +92,20 @@
 
                     <?php
                     // Récupérer toutes les categories pour la liste déroulante
-                    $allCateg = get_all_categories();
                     $nbrCateg = count($allCateg);
                     echo "<option value ='rien'>" ."  ". "</option>";
                     for ($i = 0; $i<$nbrCateg; $i++){
                         $theCateg = $allCateg[$i];
-                        echo "<option value='".$theCateg;
-                        echo "'>";
-                        echo $theCateg."</option>";
+                       $selected = ($theCateg === $tag) ? 'selected' : '';
+                        echo "<option value='".$theCateg."' $selected>".$theCateg."</option>";
                     }
                     ?>
                 </select>
 
 
-
                 <br>
                 <!-- Valider les infos des listes déroulantes-->
                 <input type="submit" value="Valider"/>
-
 
             </form>
         </div>
@@ -108,26 +134,29 @@
         $lesMots = [];
         $cartes = [];
 
+        // Choisir le mot à afficher en fonction de la langue choisi
+        $langue = $_GET['langue'] ?? 1;
 
-        // On récupère 8 mots randoms et on les ajoute a la liste de mot
-        while (count($lesMots) < 8) {
-            $unMot = get_random_word();
-            array_push($lesMots, $unMot);
-
-            /*
-            // Eviter les doublons (si le mot francais n'existe pas dans la liste des mots alors on l'ajoute)
-            if (!isset($lesMots[$unMot['fr']])) {
-                $lesMots[$unMot['fr']] = $unMot;
-            }
-            */
+        // Catégorie
+        $categChoisi = null;
+        if (isset($_GET['tag']) && $_GET['tag'] !== 'rien') {
+            $categChoisi = strtolower($_GET['tag']);
         }
 
 
-        // Faire en fonction des langues
-        if(isset($_GET['langue'])){
-            $langue = $_GET["langue"];
-        }else {
-             $langue = 1;
+        // On récupère 8 mots randoms DIFFERENTS
+        while (count($lesMots) < 8) {
+            // Récupération du mot
+            if ($categChoisi !== null) {
+                $unMot = get_random_word_par_categ_et_langues($langue, $categChoisi);
+            } else {
+                $unMot = get_random_word();
+            }
+
+            // On utilise le mot français comme clé pour éviter les doublons
+            if (!isset($lesMots[$unMot['fr']])) {
+                $lesMots[$unMot['fr']] = $unMot;
+            }
         }
 
 
@@ -203,7 +232,7 @@
 
 
         <!-- Container pour toute la grille de jeu (délimite cette espace) -->
-        <div class="containerGrilleJeu">
+        <div class="containerGrilleJeu moyenLarge">
 
             <?php
             // Pour afficher 4 lignes

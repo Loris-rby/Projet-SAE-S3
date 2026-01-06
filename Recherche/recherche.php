@@ -35,7 +35,7 @@
                 <form action="./recherche.php" method="GET">
 
                     <!-- Texte à chercher -->
-                    <input type="text" id="texteRecherche" name="texteRecherche"/>
+                    <input class="moyenLarge" type="text" id="texteRecherche" name="texteRecherche"/><br>
                     
                     <!-- Select langue pour recherche -->
                     <select name="langueRecherche" id="langueRecherche">

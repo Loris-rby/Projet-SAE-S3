@@ -8,12 +8,14 @@
 
 
     <body>
+
         <!------------------------------------- PARTIE PHP 1 ---------------------------------------
          1. Démarrer une session pour le score
          2. Récupérer le header
          3. Lier le fichier fonctions.php de Loris pour manipuler les fonctions déjà faite sur la base de données
          4. Récupérer le score envoyé à php après le rechargement de la page
          5. Récupérer le score dans une variable pour l'afficher
+         6. Valeurs par défaut pour les listes déroulantes
         -->
         <?php
         // Pour démarrer une session & lier fonctions.php
@@ -26,6 +28,25 @@
             $_SESSION['score'] = (int)$_POST['score'];
         }
         $currentScore = $_SESSION['score'] ?? 0;
+
+
+        // Valeurs par défaut
+        $langue = $_SESSION['langue'] ?? 1;
+        $tag = $_SESSION['tag'] ?? 'rien';
+
+        // Si le formulaire est soumis, on met à jour les valeurs
+        if (isset($_GET['langue'])) {
+            $langue = (int) $_GET['langue'];
+            $_SESSION['langue'] = $langue;
+        }
+
+        if (isset($_GET['tag'])) {
+            $tag = $_GET['tag'];
+            $_SESSION['tag'] = $tag;
+        }
+
+        // Récupérer toutes les catégories pour la liste déroulante
+        $allCateg = get_all_categories();
         ?>
 
 
@@ -36,9 +57,12 @@
          Afficher le texte en haut
         -->
         <h1 class="centre">Apprentissage par carte</h1>
-        <h3 class="centre">Concept :</h3>
-        <p class="centre">Sur la carte vous allez avoir un mot et il va falloir trouver la traduction. Entrer la traduction dans le champs de texte et valider la réponse.</p>
 
+        <div class="moyenLarge">
+            <h3 class="centre">Concept :</h3>
+            <p class="centre">Sur la carte vous allez avoir un mot et il va falloir trouver la traduction. Entrer la traduction dans le champs de texte et valider la réponse.</p>
+            <br>
+        </div>
 
 
     
@@ -51,15 +75,15 @@
          2. Liste déroulante des catégories de mots
          3. Bouton valider 
         -->
-        <div class="containerPersonalisation">
+        <div class="containerPersonalisation blocInfo">
             <h3>Personnaliser votre apprentissage : </h3>
             <form method="GET">
                 <label for="langueChoisie">Choisir une langue : </label>
                 <select name="langue" id="langueChoisie">
-                    <option value="1">FR-ENG</option>
-                    <option value="2">FR-ESP</option>
-                    <option value="3">ENG-FR</option>
-                    <option value="4">ENG-ESP</option>
+                    <option value="1" <?= $langue == 1 ? 'selected' : '' ?>>FR-ENG</option>
+                    <option value="2" <?= $langue == 2 ? 'selected' : '' ?>>FR-ESP</option>
+                    <option value="3" <?= $langue == 3 ? 'selected' : '' ?>>ENG-FR</option>
+                    <option value="4" <?= $langue == 4 ? 'selected' : '' ?>>ENG-ESP</option>
                 </select>
 
                 <br>
@@ -68,26 +92,27 @@
 
                     <?php
                     // Récupérer toutes les categories pour la liste déroulante
-                    $allCateg = get_all_categories();
                     $nbrCateg = count($allCateg);
                     echo "<option value ='rien'>" ."  ". "</option>";
                     for ($i = 0; $i<$nbrCateg; $i++){
                         $theCateg = $allCateg[$i];
-                        echo "<option value='".$theCateg;
-                        echo "'>";
-                        echo $theCateg."</option>";
+                       $selected = ($theCateg === $tag) ? 'selected' : '';
+                        echo "<option value='".$theCateg."' $selected>".$theCateg."</option>";
                     }
                     ?>
                 </select>
 
+
                 <br>
                 <!-- Valider les infos des listes déroulantes-->
                 <input type="submit" value="Valider"/>
+
             </form>
         </div>
 
+        <h3 id="score" class="centre">Score : <?php echo $currentScore; ?> </h3>
 
-        
+
 
         <!------------------------------------- PARTIE PHP 2 ---------------------------------------
          Choisir un mot aléatoire
@@ -95,20 +120,33 @@
          2. Variables 
         -->
         <?php
-        // Récupèrer un mot random de la base (le francais, l'anglais et la catégorie)
-        $motRandom = get_random_word();
-        $motFR = $motRandom['fr'];
-        $motENG = $motRandom['en'];
-        $motESP = $motRandom['es'];
         // Variable par défaut pour pouvoir afficher le message de réussite ou d'echec
         $message = ""; 
 
         // Choisir le mot à afficher en fonction de la langue choisi
-        if(isset($_GET['langue'])){
-            $langue = $_GET["langue"];
-        }else {
-             $langue = 1;
+        $langue = $_GET['langue'] ?? 1;
+
+        // Catégorie
+        $categChoisi = null;
+        if (isset($_GET['tag']) && $_GET['tag'] !== 'rien') {
+            $categChoisi = strtolower($_GET['tag']);
         }
+
+
+        // Récupération du mot
+        if ($categChoisi !== null) {
+            $motRandom = get_random_word_par_categ_et_langues($langue, $categChoisi);
+        } else {
+            $motRandom = get_random_word();
+        }
+
+        
+        $motFR = $motRandom['fr'];
+        $motENG = $motRandom['en'];
+        $motESP = $motRandom['es'];
+
+
+
         switch ($langue) {
             case 1:
                 $mot1 = $motFR;
@@ -116,7 +154,7 @@
                 break;
             case 2:
                 $mot1 = $motFR;
-                $mot2 = "Mot espagnol";
+                $mot2 = $motESP;
                 break;
             case 3:
                 $mot1 = $motENG;
@@ -124,7 +162,7 @@
                 break;
             case 4:
                 $mot1 = $motENG;
-                $mot2 = "Mot espagnol";
+                $mot2 = $motESP;
                 break;
         }
         ?>
@@ -150,8 +188,9 @@
         
         <!-- Pour créer un container des réponses -->
         <div class="containerReponse">
+
             <p>Entrer votre réponse : </p> 
-            <input type="text" id="reponse" size="50">
+            <input class="moyenLarge" type="text" id="reponse" size="50">
 
             <div class="ligneBoutons">
                 <button id="btnValider">Valider</button>
@@ -165,7 +204,6 @@
 
             <!-- Pour afficher un message réponse (fait dans le javaScript) -->
             <p id="message"></p>
-            <p id="score">Score : <?php echo $currentScore; ?> </p>
         </div>
 
         

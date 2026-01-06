@@ -9,13 +9,14 @@
 
     <body>
         <?php
-        session_start();
-        require_once './../header.php';
+            session_start();
+            require_once './../header.php';
         ?>
 
         <h1 class="centre">Jeu du Motus </h1>
-        <h3 class="centre">Concept :</h3>
-        <p class="centre">Veuillez saisir un mot :</p>
+
+
+        <div class="blocInfo">
 
         <form method="POST"> 
 
@@ -87,6 +88,8 @@
     <br>
     <button type="submit">Valider</button>
 
+    </div>
+
         </form>
         <?php
         
@@ -94,9 +97,10 @@
         // ----------- Gestion du score ----------------------------------------------------------------------
         $_SESSION['scoreMotus'] = $_SESSION['scoreMotus'] ?? 0; // Pour creer un score global on le renvoie a chaque Post et par défaut = 0
         
-        ?> <p> <?php
-        echo " Score : ".$_SESSION['scoreMotus'];  // On affiche le score 
-        ?> </p> 
+        ?> 
+        
+        <h3 class="centre"> <?php echo " Score : ".$_SESSION['scoreMotus'];  // On affiche le score ?> </h3> <br>
+        <p class="centre">Veuillez saisir un mot :</p>
         
         <?php
         
@@ -254,7 +258,7 @@
                 if ($i === count($tentatives)) {
                     for ($j = 0; $j < $tailleMot; $j++) {
                         // champ individuel pour chaque lettre
-                        echo '<td><input type="text" name="motActuel[' . $j . ']" maxlength="1" autocomplete="off" onkeydown="if(event.keyCode==32) return false;"></td>';
+                        echo '<td><input class="inputMotus" type="text" name="motActuel[' . $j . ']" maxlength="1" autocomplete="off" onkeydown="if(event.keyCode==32) return false;"></td>';
                     }
                 } else {
                     // Lignes restantes vides
@@ -272,7 +276,7 @@
                 <?php
                 // Conserver les tentatives pour les POST suivants
                 foreach ($tentatives as $tent) {
-                    echo '<input type="hidden" name="tentatives[]" value="' . htmlspecialchars($tent, ENT_QUOTES, 'UTF-8') . '">';
+                    echo '<input class="inputMotus" type="hidden" name="tentatives[]" value="' . htmlspecialchars($tent, ENT_QUOTES, 'UTF-8') . '">';
                 }
                 ?>
             <br>
@@ -316,8 +320,9 @@
         }
         ?>
 
-        <p> Pour les accents copier ici : </p>
-        <p> â - é - è - ê - ñ - ó - í - ñ - ô </p>
+        <br><br>
+        <p class="centre"> Pour les accents copier ici : </p>
+        <p class="centre"> â - é - è - ê - ó - í - ñ - ô </p><br><br>
                 
     <script src="Motus.js"></script> 
 

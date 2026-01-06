@@ -1,26 +1,4 @@
 
-
-/*
-
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-
-
-
-
-
-*/
-
-
-
-
-
-
-
 body{
     width: 100%;
     height: 100vh;
@@ -33,19 +11,6 @@ body{
     color: #3e3936;
 }
 
-.blocInfo{
-    height: auto;
-    margin-left: 3%;
-    margin-right: 3%;
-    margin-bottom: 30px;
-    padding: 20px;
-    padding-top: 10px;
-
-    background-color: #07b6ae;
-    border-radius: 5px 60px;
-
-    color: #f7f7f7;
-}
 
 .testLogo{
     text-align: center;
@@ -120,7 +85,7 @@ a{
     width:10vh;
 }
 
-h1.centre, h2.centre, h3.centre, p.centre, select.centre{
+.centre{
     text-align: center;
 }
 
@@ -143,8 +108,6 @@ td {
 }
 
 input[type="text"] {
-    width: 100%;
-    height: 100%;
     border: none;
     text-align: center;
     font-size: 24px;
@@ -556,19 +519,7 @@ body{
     color: #3e3936;
 }
 
-.blocInfo{
-    height: auto;
-    margin-left: 3%;
-    margin-right: 3%;
-    margin-bottom: 30px;
-    padding: 20px;
-    padding-top: 10px;
 
-    background-color: #07b6ae;
-    border-radius: 5px 60px;
-
-    color: #f7f7f7;
-}
 
 .testLogo{
     text-align: center;
@@ -656,19 +607,6 @@ body{
     color: #3e3936;
 }
 
-.blocInfo{
-    height: auto;
-    margin-left: 3%;
-    margin-right: 3%;
-    margin-bottom: 30px;
-    padding: 20px;
-    padding-top: 10px;
-
-    background-color: #07b6ae;
-    border-radius: 5px 60px;
-
-    color: #f7f7f7;
-}
 
 .testLogo{
     text-align: center;
@@ -777,9 +715,13 @@ body {
   line-height: 1.6;
 }
 
-header, nav {
+header {
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
+}
+
+nav {
+  background: var(--bg-secondary);
 }
 
 main {
@@ -830,11 +772,13 @@ button:hover {
 table {
   width: 100%;
   border-collapse: collapse;
+  background-color: var(--bg-secondary);
 }
 
 th, td {
   padding: 0.75rem;
   border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
 }
 
 th {
@@ -848,5 +792,32 @@ footer {
   text-align: center;
   padding: 1rem;
   color: var(--text-muted);
+}
+
+.blocInfo{
+    height: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 30px;
+    padding: 20px;
+    padding-top: 10px;
+
+    background-color: var(--bg-secondary);
+    border-radius: 20px;
+
+    color: #f7f7f7;
+    width : 80vw;
+}
+
+.inputMotus {
+    background-color: var(--bg-secondary);
+    height: 100%;
+    width : 100%;
+}
+
+.moyenLarge {
+    width : 80%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
