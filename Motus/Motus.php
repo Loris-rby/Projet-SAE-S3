@@ -93,10 +93,10 @@
         
 
         // ----------- Gestion du score ----------------------------------------------------------------------
-        $_SESSION['score'] = $_SESSION['score'] ?? 0; // Pour creer un score global on le renvoie a chaque Post et par défaut = 0
+        $_SESSION['scoreMotus'] = $_SESSION['scoreMotus'] ?? 0; // Pour creer un score global on le renvoie a chaque Post et par défaut = 0
         
         ?> <p> <?php
-        echo " Score : ".$_SESSION['score'];  // On affiche le score 
+        echo " Score : ".$_SESSION['scoreMotus'];  // On affiche le score 
         ?> </p> 
         
         <?php
@@ -288,7 +288,7 @@
                 $derniereTentative = end($tentatives);
 
                 if ($derniereTentative === $motSecret) {
-                    $_SESSION['score'] += 1; // Ajouter 1 au score 
+                    $_SESSION['scoreMotus'] += 1; // Ajouter 1 au score 
                     echo "<h2>Bravo ! Vous avez trouvé le mot <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b> !</h2>";
                     ?>
                     <form method="POST">
@@ -300,7 +300,7 @@
                     </form> 
             <?php
             } elseif (count($tentatives) >= $nombreEssais) {
-                $_SESSION['score'] = 0; // remettre le score a 0
+                $_SESSION['scoreMotus'] = 0; // remettre le score a 0
                 echo "<h2>Perdu ! Le mot était <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b>.</h2>";
                 ?>
                 <form method="POST">
