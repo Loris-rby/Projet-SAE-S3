@@ -13,10 +13,10 @@
 
         <div id="pageAcceuil">
 
-            <span class="testLogo">Ajout de mot</span><br>
+            <h1 class="centre">Ajout de mot</h1>
 
             <div class="blocInfo">
-                <h2>Demande d'ajout</h2>
+                <h3 class="centre"> Demande d'ajout</h3>
 
                 <form id="formAjout" action="./creationDemande.php" method="GET">
 
@@ -66,6 +66,7 @@
                                 var input = document.createElement("input");
                                 input.type = "text";
                                 input.name = "categs[]";
+                                input.classList.add('inputCateg')
                                 input.readOnly = true;
                                 //input.className = ""; // set the CSS class
 
@@ -96,7 +97,7 @@
 
             </div>
 
-            <br><div class="moyenLarge">
+            <div class="moyenLarge">
                 <a class="alignRight" href="./../Admin/connectionAdmin.php">Connexion administrateur</a>
             </div>
                 

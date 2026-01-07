@@ -27,8 +27,9 @@
                 }catch( Exception $e ){}
             ?>
 
+            <br>
             <div class="blocInfo">
-                <h2>Recherche</h2>
+                <h3 class="centre">Recherche</h3>
 
                 <form action="./recherche.php" method="GET">
 
@@ -61,7 +62,7 @@
                     <!-- Valider -->
                     <input type="submit" value="🔍"/>
                 </form>
-                <br>
+                
             </div>
 
             <!-- PHP récup choix utilisateur & mots voulu dans base donnée -->
@@ -69,8 +70,9 @@
                 $mots = get_dictionary_words($texteRecherche, $langueRecherche, $categRecherche); 
             ?>
 
+            <br>
             <div class="blocInfo">
-                <h2>Résultat</h2>
+                <h3 class="centre">Résultat</h3>
                 <ul>
                         <!-- PHP affiche mots trouvés -->
                         <?php 
@@ -89,7 +91,7 @@
                 </ul>
             </div>
 
-            <br><div class="moyenLarge">
+            <div class="moyenLarge">
                 <span class="alignRight">Le mot que vous cherchez n'est pas ici ?</span>
                 <a class="alignRight" href="./../Ajout/demandeAjout.php">Demandez de l'ajouter</a>
             </div>

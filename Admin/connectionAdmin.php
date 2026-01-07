@@ -13,20 +13,20 @@
 
         <div id="pageAcceuil">
 
-            <span class="testLogo">Connection admin</span><br>
+            <h1 class="centre">Connexion admin</h1>
 
             <div class="blocInfo">
-                <h2>Identification</h2>
+                <h3 class="centre">Identification</h3>
 
                 <form action="./pageAdmin.php" method="POST">
 
                     <!-- identifiant -->
                     <label for="identifiant">Identifiant</label>
-                    <input type="text" id="identifiant" name="identifiant"/><br>
+                    <input type="text" id="identifiant" name="identifiant"/><br><br>
                     
                     <!-- mot de passe -->
                     <label for="mot2passe">Mot de passe</label>
-                    <input type="password" id="mot2passe" name="mot2passe"/><br>
+                    <input type="password" id="mot2passe" name="mot2passe"/><br><br>
 
                     <!-- Valider -->
                     <input type="submit" value="Entrer"/>

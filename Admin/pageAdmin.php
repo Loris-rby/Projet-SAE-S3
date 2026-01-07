@@ -13,11 +13,11 @@
 
         <div id="pageAcceuil">
 
-            <span class="testLogo">Page admin</span><br>
+            <h1 class="centre">Page admin</h1>
 
             <div class="blocInfo">
 
-                <h2>Demandes d'ajouts</h2>
+                <h3 class="centre">Demandes d'ajouts</h3>
                 
                 <ul>
                 <?php

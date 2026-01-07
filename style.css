@@ -340,7 +340,7 @@ nav a {
 /* Effet au survol (hover) des liens */
 nav a:hover {
     background-color: #555; /* Fond légèrement plus clair au survol */
-    color: #ffd700; /* Texte de couleur vive (or) au survol, pour l'accent */
+    color: #f97600; /* Texte de couleur vive (or) au survol, pour l'accent */
 }
 
 
@@ -688,8 +688,8 @@ CSS CHAT GPT
   --bg-card: #1f2430;
   --text-main: #e6e6eb;
   --text-muted: #a0a4b8;
-  --accent: #4f8cff;
-  --accent-hover: #6aa2ff;
+  --accent: #f64b0c ;
+  --accent-hover: #f97600;
   --border-color: #2a2f3a;
 }
 
@@ -729,7 +729,6 @@ p {
 
 a {
   color: var(--accent);
-  text-decoration: none;
 }
 
 a:hover {
@@ -788,7 +787,7 @@ footer {
     height: auto;
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 5%;
+    margin-bottom: 10px;
 
     padding: 20px;
     padding-top: 10px;
@@ -830,4 +829,17 @@ footer {
     padding: 20px;
     padding-top: 10px;
     border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+.inputCateg {
+    margin-top: 7px;
+}
+
+input[type="submit"] , button{
+    background-color: #f64b0c  ;
+}
+
+#MemoDeck {
+    color: #f64b0c  ;
 }
