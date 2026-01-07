@@ -222,11 +222,11 @@ h3.centre, p.centre {
 
 /* Style d'une seule carte*/
 .carteAvant {
-    background-color: #1f6545;
+    background-color: #247e8a;
 }
 
 .carteArriere {  
-    background-color: #f97600;
+    background-color: #40bccf;
     transform: rotateY(180deg); /* Face arrière tournée */
 }
 
@@ -280,14 +280,14 @@ h3.centre, p.centre {
     font-size: 16px;
     border-radius: 5px;
     border: none;
-    background-color: #f64b0c;
+    background-color: #40bccf;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .containerReponse button:hover,  .containerPersonalisation button:hover {
-    background-color: #b33305;
+    background-color: #104b53;
 }
 
 
@@ -340,7 +340,7 @@ nav a {
 /* Effet au survol (hover) des liens */
 nav a:hover {
     background-color: #555; /* Fond légèrement plus clair au survol */
-    color: #f97600; /* Texte de couleur vive (or) au survol, pour l'accent */
+    color: #40bccf; /* Texte de couleur vive (or) au survol, pour l'accent */
 }
 
 
@@ -420,11 +420,11 @@ h3.centre, p.centre {
 
 /* Style d'une seule carte*/
 .carteAvant {
-    background-color: #1f6545;
+    background-color: #247e8a;
 }
 
 .carteArriere {  
-    background-color: #f97600;
+    background-color: #40bccf;
     transform: rotateY(180deg); /* Face arrière tournée */
 }
 
@@ -478,14 +478,14 @@ h3.centre, p.centre {
     font-size: 16px;
     border-radius: 5px;
     border: none;
-    background-color: #f64b0c;
+    background-color: #247e8a;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .containerReponse button:hover,  .containerPersonalisation input:hover {
-    background-color: #b33305;
+    background-color: #104b53;
 }
 
 
@@ -688,8 +688,8 @@ CSS CHAT GPT
   --bg-card: #1f2430;
   --text-main: #e6e6eb;
   --text-muted: #a0a4b8;
-  --accent: #f64b0c ;
-  --accent-hover: #f97600;
+  --accent: #104b53 ;
+  --accent-hover: #40bccf;
   --border-color: #2a2f3a;
 }
 
@@ -837,9 +837,9 @@ footer {
 }
 
 input[type="submit"] , button{
-    background-color: #f64b0c  ;
+    background-color: #247e8a  ;
 }
 
 #MemoDeck {
-    color: #f64b0c  ;
+    color: #40bccf  ;
 }
