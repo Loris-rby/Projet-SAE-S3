@@ -13,8 +13,6 @@
 
         <div id="pageAcceuil">
 
-            <span class="testLogo">Recherche</span><br>
-
             <!-- PHP setup -->
             <?php 
                 require_once './../fonctions.php';
@@ -35,7 +33,7 @@
                 <form action="./recherche.php" method="GET">
 
                     <!-- Texte à chercher -->
-                    <input class="moyenLarge" type="text" id="texteRecherche" name="texteRecherche"/><br>
+                    <input class="moyenLarge" type="text" id="texteRecherche" name="texteRecherche"/><br><br>
                     
                     <!-- Select langue pour recherche -->
                     <select name="langueRecherche" id="langueRecherche">
@@ -63,7 +61,7 @@
                     <!-- Valider -->
                     <input type="submit" value="🔍"/>
                 </form>
-
+                <br>
             </div>
 
             <!-- PHP récup choix utilisateur & mots voulu dans base donnée -->
@@ -77,13 +75,24 @@
                         <!-- PHP affiche mots trouvés -->
                         <?php 
                             foreach ($mots as $leMot) {
-                                echo "-> FR: {$leMot['fr']}, EN: {$leMot['en']}<br>";
+                                echo '<div class="boiteMot">';
+                                echo "<p><b class='texteMedium'>{$leMot['fr']}</b> (fr) <b class='texteMedium'>/ {$leMot['en']}</b> (en) <b class='texteMedium'>/ {$leMot['es']}</b> (es) </p>";
+                                echo "<b class='texteMedium'> Catégories : </b>";
+                                
+                                foreach ($leMot['categories'] as $categ){
+                                    echo "<input class='petitInput' type='text' readOnly value='{$categ}' size='".strlen($categ)."'>";
+                                }
+                                echo '<br></div>';
                             }
                         ?>
                         
                 </ul>
             </div>
 
+            <br><div class="moyenLarge">
+                <span class="alignRight">Le mot que vous cherchez n'est pas ici ?</span>
+                <a class="alignRight" href="./../Ajout/demandeAjout.php">Demandez de l'ajouter</a>
+            </div>
             
                 
         </div>

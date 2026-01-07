@@ -13,20 +13,20 @@
 
         <div id="pageAcceuil">
 
-            <span class="testLogo">Page ajout</span><br>
+            <span class="testLogo">Ajout de mot</span><br>
 
             <div class="blocInfo">
-                <h2>Ajout</h2>
+                <h2>Demande d'ajout</h2>
 
                 <form id="formAjout" action="./creationDemande.php" method="GET">
 
                     <!-- Texte FR -->
                     <label for="texteFR">Écriture du mot en Français</label>
-                    <input type="text" id="texteFR" name="texteFR"/><br>
+                    <input type="text" id="texteFR" name="texteFR"/><br><br>
                     
                     <!-- Texte EN -->
                     <label for="texteEN">Écriture du mot en Anglais</label>
-                    <input type="text" id="texteEN" name="texteEN"/><br>
+                    <input type="text" id="texteEN" name="texteEN"/><br><br>
 
                     <!-- Texte FR -->
                     <label for="texteES">Écriture du mot en Espagnol</label>
@@ -94,6 +94,10 @@
                     }
                 ?>
 
+            </div>
+
+            <br><div class="moyenLarge">
+                <a class="alignRight" href="./../Admin/connectionAdmin.php">Connexion administrateur</a>
             </div>
                 
         </div>

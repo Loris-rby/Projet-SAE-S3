@@ -31,9 +31,6 @@ h3{
     font-size: 30px;
 }
 
-p{
-    text-align: justify;
-}
 
 .rouge{
     font-style: bold;
@@ -110,8 +107,7 @@ td {
 input[type="text"] {
     border: none;
     text-align: center;
-    font-size: 24px;
-    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .btn_valider {
@@ -540,9 +536,6 @@ h3{
     font-size: 30px;
 }
 
-p{
-    text-align: justify;
-}
 
 .rouge{
     font-style: bold;
@@ -627,9 +620,6 @@ h3{
     font-size: 30px;
 }
 
-p{
-    text-align: justify;
-}
 
 .rouge{
     font-style: bold;
@@ -734,7 +724,7 @@ h1, h2, h3, h4 {
 }
 
 p {
-  color: var(--text-muted);
+  color: var(--text-main);
 }
 
 a {
@@ -798,7 +788,8 @@ footer {
     height: auto;
     margin-left: 10%;
     margin-right: 10%;
-    margin-bottom: 30px;
+    margin-top: 5%;
+
     padding: 20px;
     padding-top: 10px;
 
@@ -813,6 +804,7 @@ footer {
     background-color: var(--bg-secondary);
     height: 100%;
     width : 100%;
+    text-transform: uppercase;
 }
 
 .moyenLarge {
@@ -821,3 +813,21 @@ footer {
     margin-right: 10%;
 }
 
+.alignRight {
+    text-align: right;
+}
+
+.texteMedium {
+    font-size: 24px;
+}
+
+.petitInput {
+    background-color: var(--bg-secondary);
+}
+
+.boiteMot {
+    background-color: var(--bg-card);
+    padding: 20px;
+    padding-top: 10px;
+    border-radius: 20px;
+}

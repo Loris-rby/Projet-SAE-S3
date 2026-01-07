@@ -37,32 +37,31 @@
                             // afficher demandes
                             foreach ($lesDemandes as $demande){
 
+                                
+                                echo '<div class="boiteMot">';
+                                echo "<p><b class='texteMedium'>{$demande['fr']}</b> (fr) <b class='texteMedium'>/ {$demande['en']}</b> (en) <b class='texteMedium'>/ {$demande['es']}</b> (es) </p>";
+                                echo "<b class='texteMedium'> Catégories : </b>";
+                                
+                                foreach ($demande['categories'] as $categ){
+                                    echo "<input class='petitInput' type='text' readOnly value='{$categ}' size='".strlen($categ)."'>";
+                                }
+                                echo '<br>';
+                                
+
                                 $fr = $demande['fr'] ;
                                 $en = $demande['en'] ;
                                 $es = $demande['es'] ;
                                 $categs = $demande['categories'] ;
 
-                                echo "<div class='demandeAjout'>";
-
-                                echo "<b>Français :</b> ".$fr.", ";
-                                echo "<b>Anglais :</b> ".$en.", ";
-                                echo "<b>Espagnol :</b> ".$es."<br>";
-
-                                echo "<b>Catégories :</b> ";
-                                foreach ($categs as $categ){
-                                    echo $categ.", ";
-                                }
-                                echo "<br>";
-
                                 // refuser requette 
-                                echo '<a href="./suprDemande.php?fr='.$fr.'&identifiant='.$identifiant.'&mot2passe='.$motDePasse.'"><b>Refuser</b></a> ou ';
+                                echo '<p><a href="./suprDemande.php?fr='.$fr.'&identifiant='.$identifiant.'&mot2passe='.$motDePasse.'"><b class="texteMedium">Refuser</b></a> ou ';
 
                                 // valider requette 
                                 echo '<a href="./ajouterMot.php?fr='.$fr.'&en='.$en.'&es='.$es.'&identifiant='.$identifiant.'&mot2passe='.$motDePasse;
                                 foreach ($categs as $categ){
                                     echo '&categs[]='.$categ;
                                 }
-                                echo '"><b>Valider</b></a> ?';
+                                echo '"><b class="texteMedium">Valider</b></a> ?</p>';
 
                                 echo "</div>";
                             }
