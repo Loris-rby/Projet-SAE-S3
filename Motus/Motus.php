@@ -292,7 +292,7 @@
 
                 if ($derniereTentative === $motSecret) {
                     $_SESSION['scoreMotus'] += 1; // Ajouter 1 au score 
-                    echo "<h2>Bravo ! Vous avez trouvé le mot <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b> !</h2>";
+                    echo "<br><p style='color:#40bccf;' class='centre'>Bravo ! Vous avez trouvé le mot <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b> !</p><br>";
                     ?>
                     <form method="POST">
                         <button type="submit" name="rejouer" value="1">Rejouer</button>
@@ -304,7 +304,7 @@
             <?php
             } elseif (count($tentatives) >= $nombreEssais) {
                 $_SESSION['scoreMotus'] = 0; // remettre le score a 0
-                echo "<h2>Perdu ! Le mot était <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b>.</h2>";
+                echo "<br><p class='centre'>Perdu ! Le mot était <b>" . htmlspecialchars(mb_strtoupper($motSecret, "UTF-8")) . "</b>.</p><br>";
                 ?>
                 <form method="POST">
                     <button type="submit" name="rejouer" value="1">Rejouer</button> 
